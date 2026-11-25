@@ -1,0 +1,969 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Isa Totah</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a black gallery wall. Photographs are never boxed in; they fade into the dark.
+   Home is a short tour of every page. Color appears only as soft light around the work. */
+:root{
+  --ink:#050506;
+  --ink2:#0b0b0e;
+  --ink3:#121216;
+  --paper:#EEEAE3;
+  --body:rgba(238,234,227,.82);
+  --mute:rgba(238,234,227,.66);
+  --faint:rgba(238,234,227,.48);
+  --hair:rgba(238,234,227,.14);
+  --hair2:rgba(238,234,227,.26);
+  --now:#57b3d1;
+  --serif:"Cormorant Garamond","Cormorant",Garamond,Georgia,serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gut:clamp(20px,5vw,72px);
+  --max:1296px;
+  --pad:clamp(80px,12vh,160px);
+  --hdr:76px;
+  --ease:cubic-bezier(.2,.65,.2,1);
+  color-scheme:dark;
+}
+body[data-page=director]{--now:#6f8cf0}
+body[data-page=actor]{--now:#e8626b}
+body[data-page=speaker]{--now:#e9a23b}
+body[data-page=works],body[data-page=writing]{--now:#e98a4c}
+body[data-page=art]{--now:#ee6a98}
+body[data-page=photography]{--now:#d8cca0}
+body[data-page=about]{--now:#d8738f}
+body[data-page=news]{--now:#4fc3c8}
+body[data-page=contact]{--now:#8fd0e6}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--ink);-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 1.0625rem/1.65 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body.lock{overflow:hidden}
+main,footer{overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+p,h1,h2,h3,h4,figure,blockquote,dl,dd,ul,ol{margin:0;padding:0}
+ul,ol{list-style:none}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;text-wrap:balance}
+p{text-wrap:pretty}
+em{font-style:italic}
+::selection{background:color-mix(in srgb,var(--now) 55%,#000);color:#fff}
+:focus-visible{outline:1px solid var(--paper);outline-offset:5px;box-shadow:0 0 0 4px rgba(5,5,6,.6)}
+.wrap{width:100%;max-width:calc(var(--max) + var(--gut)*2);margin:0 auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.narrow{max-width:calc(780px + var(--gut)*2)}
+
+/* ---------- type bits ---------- */
+.label{display:flex;align-items:center;gap:14px;font:500 .7rem/1.3 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--mute)}
+.label i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--now);box-shadow:0 0 12px 2px var(--now)}
+.label::after{content:"";flex:none;width:56px;height:1px;background:var(--hair)}
+.label.plain::after{display:none}
+.kick{font:500 .66rem/1.4 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--faint)}
+.h1{font-size:clamp(3.6rem,10vw,10rem);line-height:.9;font-weight:300;letter-spacing:-.02em}
+.h2{font-size:clamp(2.6rem,6vw,5.6rem);line-height:.96;font-weight:300;letter-spacing:-.015em}
+.h3{font-size:clamp(1.9rem,3.2vw,3rem);line-height:1.04;font-weight:400}
+.h4{font-size:clamp(1.45rem,2vw,1.8rem);line-height:1.15}
+.h1 em,.h2 em,.h3 em{font-weight:300;padding-right:.05em}
+.lead{font:italic 400 clamp(1.3rem,2vw,1.8rem)/1.38 var(--serif);color:rgba(238,234,227,.92);max-width:26em}
+.copy{color:var(--body);max-width:36em}
+.copy+.copy{margin-top:1.1em}
+.mute{color:var(--mute)}
+.todo{font-style:italic;color:var(--faint)}
+.note{font-size:.85rem;color:var(--faint)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--c,var(--now));box-shadow:0 0 10px 2px var(--c,var(--now));vertical-align:middle}
+
+/* ---------- links & buttons ---------- */
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:6px 30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:12px 26px;font:500 .72rem/1.2 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--paper);border:1px solid var(--hair2);transition:border-color .4s,box-shadow .4s,background .3s,color .3s}
+.btn:hover,.btn:focus-visible{border-color:var(--gl,var(--now));box-shadow:0 0 30px -8px var(--gl,var(--now))}
+.btn.solid{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn.solid:hover{background:#fff}
+.btn.sm{min-height:36px;padding:8px 14px;font-size:.66rem}
+.go svg,.ext svg{width:14px;height:10px;flex:none;transition:transform .4s var(--ease)}
+.go:hover svg{transform:translateX(4px)}
+.ext svg{width:11px;height:11px}
+.ext:hover svg{transform:translate(2px,-2px)}
+.watch{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:4px 0;font:500 .72rem/1.4 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--paper);border-bottom:1px solid var(--hair2);transition:border-color .4s,text-shadow .4s}
+.watch span{color:var(--faint);letter-spacing:.12em}
+.watch:hover,.watch:focus-visible{border-color:var(--gl,var(--now));text-shadow:0 0 16px var(--gl,var(--now))}
+
+/* ---------- header ---------- */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;gap:28px;height:calc(var(--hdr) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) max(var(--gut),env(safe-area-inset-right,0px)) 0 max(var(--gut),env(safe-area-inset-left,0px))}
+.hdr::before{content:"";position:absolute;inset:0 0 -16px;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s;background:rgba(5,5,6,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.hdr.solid::before,.hdr.open::before{opacity:1}
+.mark{font:500 1.6rem/1 var(--serif);letter-spacing:.01em;white-space:nowrap;padding:8px 0}
+.mark em{font-weight:400}
+.nav{margin-left:auto}
+.nav>ul{display:flex;align-items:center;gap:clamp(14px,1.9vw,32px)}
+.nav li{position:relative}
+.nav a,.nav .dd-btn{display:inline-flex;align-items:center;gap:8px;font:500 .68rem/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);padding:14px 0;white-space:nowrap;transition:color .3s,text-shadow .3s;position:relative}
+.nav a:hover,.nav .dd-btn:hover,.nav [aria-current=page],.nav .dd-btn.cur{color:var(--paper);text-shadow:0 0 14px var(--now)}
+.nav a[aria-current=page]::after,.nav .dd-btn.cur::after{content:"";position:absolute;left:0;right:.22em;bottom:6px;height:1px;background:var(--now);box-shadow:0 0 8px 1px var(--now)}
+.nav .pill{border:1px solid var(--hair2);padding:12px 16px}
+.nav .pill::after{display:none!important}
+.dd-btn svg{width:9px;height:9px;transition:transform .3s}
+.dd-btn[aria-expanded=true] svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 6px);left:50%;min-width:220px;transform:translateX(-50%);padding:10px;background:rgba(11,11,14,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--hair)}
+.dd::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
+.dd a{display:flex;width:100%;gap:14px;padding:14px 12px}
+.dd a i{flex:none;width:6px;height:6px;border-radius:50%;background:var(--c,var(--now));box-shadow:0 0 10px 2px var(--c,var(--now))}
+.dd a:hover{background:rgba(238,234,227,.05)}
+.dd a::after{display:none!important}
+.has-dd:hover .dd,.has-dd:focus-within .dd{display:block}
+.dd{display:none}
+.menu-btn{display:none;margin-left:auto;align-items:center;gap:12px;min-height:44px;font:500 .7rem/1 var(--sans);letter-spacing:.3em;text-transform:uppercase}
+.menu-btn b{position:relative;display:block;width:22px;height:9px}
+.menu-btn b::before,.menu-btn b::after{content:"";position:absolute;left:0;right:0;height:1px;background:currentColor;transition:transform .4s var(--ease),top .4s var(--ease)}
+.menu-btn b::before{top:0}.menu-btn b::after{top:8px}
+.menu-btn[aria-expanded=true] b::before{top:4px;transform:rotate(45deg)}
+.menu-btn[aria-expanded=true] b::after{top:4px;transform:rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:55;background:var(--ink);padding:calc(var(--hdr) + 24px + env(safe-area-inset-top,0px)) max(var(--gut),env(safe-area-inset-right,0px)) calc(32px + env(safe-area-inset-bottom,0px)) max(var(--gut),env(safe-area-inset-left,0px));overflow-y:auto;animation:fade .4s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.menu a{display:flex;align-items:center;gap:16px;font:300 clamp(2rem,9vw,3.2rem)/1.12 var(--serif);padding:5px 0;min-height:44px}
+.menu a i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--c,var(--now));box-shadow:0 0 14px 3px var(--c,var(--now))}
+.menu a[aria-current=page]{color:#fff;text-shadow:0 0 24px var(--now)}
+.menu .grp{padding:6px 0 4px}
+.menu .grp>span{display:block;font:500 .66rem/1.4 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--faint);padding:6px 0}
+.menu .grp ol{padding-left:22px;border-left:1px solid var(--hair);margin-left:2px}
+.menu .grp a{font-size:clamp(1.7rem,7vw,2.4rem)}
+@media (max-width:1100px){.nav{display:none}.menu-btn{display:inline-flex}}
+@media (min-width:1101px){.menu{display:none!important}}
+
+/* ---------- pages ---------- */
+.page{animation:pagein .7s var(--ease) both}
+@keyframes pagein{from{opacity:0}to{opacity:1}}
+.sec{padding-block:var(--pad)}
+.sec-tight{padding-block:calc(var(--pad)*.6)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px 40px;margin-bottom:clamp(32px,6vh,72px)}
+.sec-head .label{flex:1 0 100%}
+section{scroll-margin-top:calc(var(--hdr) + 10px)}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,44px)}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,88px)}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(36px,7vw,110px);align-items:center}
+@media(max-width:900px){.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-2,.split{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.grid-3{grid-template-columns:minmax(0,1fr)}}
+
+/* interior page opening: title left, photograph fading in from the right */
+.page-hero{position:relative;isolation:isolate;overflow:hidden;padding-top:calc(var(--hdr) + env(safe-area-inset-top,0px) + clamp(56px,12vh,130px));padding-bottom:clamp(48px,9vh,100px)}
+.page-hero .h1{margin:24px 0 0 -.04em}
+.page-hero .lead{margin-top:clamp(20px,3.5vh,36px)}
+.page-hero .acts{margin-top:32px}
+.ph-bg{position:absolute;top:0;right:0;bottom:0;width:min(62%,900px);z-index:-1}
+.ph-bg img{width:100%;height:100%;object-fit:cover}
+.ph-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 0%,rgba(5,5,6,.55) 30%,rgba(5,5,6,0) 62%),linear-gradient(to top,var(--ink) 0%,rgba(5,5,6,0) 34%),linear-gradient(to bottom,rgba(5,5,6,.6) 0%,rgba(5,5,6,0) 22%)}
+@media(max-width:800px){.ph-bg{width:100%;opacity:.5}.ph-bg::after{background:linear-gradient(to top,var(--ink) 0%,rgba(5,5,6,.2) 60%,rgba(5,5,6,.5) 100%)}}
+
+/* soft light behind work */
+.glow{position:relative;isolation:isolate}
+.glow::before{content:"";position:absolute;inset:-12% -16%;z-index:-1;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--c,var(--now)) 60%,transparent),transparent 74%);filter:blur(38px);opacity:.38}
+.lit{box-shadow:0 0 0 1px rgba(255,255,255,.06),0 50px 120px -40px color-mix(in srgb,var(--c,var(--now)) 65%,transparent)}
+/* feathered edges: the photo dissolves into the page */
+.feather{-webkit-mask-image:radial-gradient(ellipse 78% 78% at 50% 50%,#000 52%,transparent 100%);mask-image:radial-gradient(ellipse 78% 78% at 50% 50%,#000 52%,transparent 100%)}
+.feather-b{-webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 55%,transparent 100%)}
+
+/* ---------- home hero ---------- */
+.hero{position:relative;height:100vh;height:100svh;min-height:640px;max-height:1180px;overflow:hidden;isolation:isolate}
+.hero-photo{position:absolute;top:0;right:0;bottom:0;width:min(64%,1040px);z-index:-2;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 38%);mask-image:linear-gradient(to right,transparent 0,#000 38%)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 14%;filter:contrast(1.06) brightness(.92);animation:kb 30s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.05)}}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 0%,rgba(5,5,6,.7) 14%,rgba(5,5,6,0) 44%),linear-gradient(to left,rgba(5,5,6,.5) 0%,rgba(5,5,6,0) 14%)}
+.hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,var(--ink) 0%,rgba(5,5,6,.78) 16%,rgba(5,5,6,0) 46%),linear-gradient(to right,rgba(5,5,6,.9) 0%,rgba(5,5,6,.3) 34%,rgba(5,5,6,0) 54%),linear-gradient(to bottom,rgba(5,5,6,.65) 0%,rgba(5,5,6,0) 20%)}
+.hero-bottom{position:absolute;left:0;right:0;bottom:clamp(40px,9vh,100px)}
+.hero-title{margin:22px 0 24px -.04em;font-size:clamp(4.6rem,13vw,12.5rem);line-height:.86;font-weight:300;letter-spacing:-.02em}
+.hero-title em{font-weight:300;padding-right:.06em}
+.hero-line{font:italic 400 clamp(1.5rem,2.6vw,2.4rem)/1.2 var(--serif);color:var(--paper)}
+.hero-intro{margin-top:14px;max-width:30em;color:var(--body)}
+.hero .acts{margin-top:28px}
+.rise{animation:rise .9s var(--ease) both}
+.rise.d1{animation-delay:.12s}.rise.d2{animation-delay:.24s}.rise.d3{animation-delay:.36s}
+@keyframes rise{from{opacity:.0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:860px){
+  .hero{min-height:700px}
+  .hero-photo{left:0;width:auto;bottom:24%}
+  .hero-photo img{object-position:56% 10%}
+  .hero-photo::after{background:linear-gradient(to top,var(--ink) 0%,rgba(5,5,6,0) 40%)}
+  .hero-shade{background:linear-gradient(to top,var(--ink) 0%,rgba(5,5,6,.9) 36%,rgba(5,5,6,0) 64%),linear-gradient(to bottom,rgba(5,5,6,.6) 0%,rgba(5,5,6,0) 22%)}
+  .hero-bottom{bottom:28px}
+}
+
+/* ---------- home snippets ---------- */
+.dir{position:relative;min-height:min(94vh,900px);display:flex;align-items:center;overflow:hidden;isolation:isolate;padding-block:clamp(72px,11vh,130px)}
+.dir-media{position:absolute;inset:0;z-index:-2}
+.dir-media img{width:100%;height:100%;object-fit:cover;object-position:30% 50%}
+.dir-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,var(--ink) 0%,rgba(5,5,6,0) 22%,rgba(5,5,6,0) 70%,var(--ink) 100%),linear-gradient(to left,rgba(5,5,6,.9) 0%,rgba(5,5,6,.78) 36%,rgba(5,5,6,0) 66%)}
+.dir-copy{display:flex}
+.dir-copy>div{margin-left:auto;width:min(100%,540px)}
+.dir-cap{position:absolute;left:var(--gut);bottom:clamp(24px,5vh,44px);font-size:.78rem;letter-spacing:.04em;color:var(--faint)}
+@media(max-width:900px){
+  .dir{display:block;min-height:0;padding-block:0 var(--pad)}
+  .dir-media{position:relative;inset:auto}
+  .dir-media img{height:auto;aspect-ratio:4/3}
+  .dir-media::after{background:linear-gradient(to bottom,var(--ink) 0%,rgba(5,5,6,0) 18%),linear-gradient(to top,var(--ink) 0%,rgba(5,5,6,0) 44%)}
+  .dir-copy>div{margin:0;width:100%}
+  .dir-copy{margin-top:-24px}
+  .dir-cap{display:none}
+}
+.facts{margin-top:30px;border-top:1px solid var(--hair);max-width:36em}
+.facts div{display:grid;grid-template-columns:minmax(88px,.3fr) minmax(0,1fr);gap:18px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--hair)}
+.facts dt{font:500 .62rem/1.4 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+.facts dd{font:400 1.25rem/1.3 var(--serif)}
+.sem{margin-top:26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;border-top:1px solid var(--hair);max-width:36em}
+.sem li{padding:12px 0;border-bottom:1px solid var(--hair);font:italic 400 1.25rem/1.25 var(--serif)}
+@media(max-width:560px){.sem{grid-template-columns:1fr}}
+.pq{margin-top:28px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.pq p{font:italic 400 clamp(1.5rem,2.2vw,2rem)/1.2 var(--serif)}
+.pq span{font:500 .66rem/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+.fig-frame{position:relative}
+.fig-frame img{width:100%;height:100%;object-fit:cover}
+.ar-45{aspect-ratio:4/5}.ar-169{aspect-ratio:1024/563}
+.fig-frame .cap{margin-top:14px;font-size:.8rem;color:var(--faint);letter-spacing:.04em}
+
+.works-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);align-items:start}
+@media(max-width:860px){.works-grid{grid-template-columns:minmax(0,1fr)}}
+.w-paint img{width:100%;height:auto}
+.w-side{display:grid;gap:clamp(32px,5vw,64px)}
+.w-k{display:flex;align-items:center;gap:12px;margin-bottom:16px;font:500 .66rem/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--mute)}
+.w-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-top:16px}
+.quote{position:relative;padding:clamp(24px,3vw,40px) clamp(22px,3vw,36px);background:var(--ink2);border:1px solid var(--hair)}
+.quote .qm{position:absolute;top:6px;right:22px;font:300 6rem/1 var(--serif);color:var(--now);opacity:.7}
+.quote blockquote{font:italic 400 clamp(1.5rem,2.4vw,2.1rem)/1.22 var(--serif);max-width:24ch}
+.quote .who{display:block;margin-top:20px;font:500 .68rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.quote .who span{display:block;margin-top:2px;letter-spacing:.04em;text-transform:none;font-style:italic;color:var(--faint);font-size:.85rem}
+.quote.ph{border-style:dashed}
+.quote.ph blockquote{color:var(--mute)}
+
+.card{display:flex;flex-direction:column;gap:12px;min-width:0}
+.card .thumb{aspect-ratio:16/10;overflow:hidden;background:var(--ink2)}
+.card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.card:hover .thumb img{transform:scale(1.04)}
+.card .k{font:500 .64rem/1.4 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+.card h3{font:400 1.6rem/1.12 var(--serif)}
+.card p{color:var(--mute);font-size:.98rem}
+.card.is-ph .thumb{display:grid;place-items:center;border:1px dashed var(--hair2);background:transparent;color:var(--faint);font-style:italic}
+
+.contact-band{position:relative;isolation:isolate;overflow:hidden;padding-block:clamp(90px,16vh,190px);text-align:center}
+.contact-band::before{content:"";position:absolute;left:50%;top:60%;width:90vmax;height:50vmax;transform:translate(-50%,-50%);z-index:-1;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--now) 30%,transparent),transparent 72%);filter:blur(40px);opacity:.5}
+.contact-band .h2{margin:22px 0 28px}
+.email-line{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 18px}
+.email-text{font:300 clamp(1.6rem,4.4vw,3.4rem)/1.1 var(--serif);border-bottom:1px solid var(--hair2);overflow-wrap:anywhere}
+.email-text:hover{border-color:var(--now)}
+.email-text.sm{font-size:clamp(1.2rem,2.4vw,1.7rem)}
+
+/* ---------- director page ---------- */
+.film-row{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(32px,7vw,110px);align-items:center;padding-block:clamp(44px,8vh,96px)}
+.film-row:nth-child(even){grid-template-columns:minmax(0,7fr) minmax(0,4fr)}
+.film-row:nth-child(even) .film-poster{order:2}
+@media(max-width:860px){.film-row,.film-row:nth-child(even){grid-template-columns:minmax(0,1fr)}.film-row:nth-child(even) .film-poster{order:0}.film-poster{max-width:420px}}
+.film-poster button{display:block;width:100%;cursor:zoom-in}
+.film-poster img{width:100%;height:auto;transition:transform .8s var(--ease)}
+.film-poster button:hover img{transform:scale(1.015)}
+.film-copy h2{margin:16px 0 18px}
+.film-copy .lead{max-width:24em}
+.meta{margin-top:20px;font:500 .64rem/1.8 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.laurel{display:flex;align-items:center;gap:14px;margin-top:20px;font-size:.92rem;line-height:1.5;color:var(--mute)}
+.laurel b{font:400 1.25rem/1.2 var(--serif);color:var(--paper)}
+.credits{margin-top:22px;max-width:34em;border-top:1px solid var(--hair)}
+.credits div{display:grid;grid-template-columns:minmax(120px,.38fr) minmax(0,1fr);gap:16px;padding:9px 0;border-bottom:1px solid var(--hair);font-size:.92rem}
+.credits dt{font:500 .6rem/1.7 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.credits dd{color:var(--body)}
+.film-copy .acts{margin-top:28px}
+.soon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,5vw,80px)}
+@media(max-width:760px){.soon{grid-template-columns:minmax(0,1fr)}}
+.soon article{padding:26px 0;border-top:1px solid var(--hair)}
+.soon h3{font:400 1.8rem/1.1 var(--serif)}
+.soon p{margin-top:8px;color:var(--mute);max-width:34em}
+
+/* ---------- art gallery ---------- */
+.gallery{background:#030304;padding-block:clamp(24px,5vw,56px) clamp(64px,9vw,110px);overflow:hidden}
+.piece{position:relative;isolation:isolate;padding-block:clamp(40px,6vw,80px);min-width:0}
+.piece::before{content:"";position:absolute;inset:0 -8%;z-index:-1;background:radial-gradient(55% 60% at 50% 40%,color-mix(in srgb,var(--glow) 30%,transparent),transparent 72%)}
+.piece button{display:block;margin:0 auto;max-width:100%;cursor:zoom-in}
+.piece img{margin:0 auto;width:auto;height:auto;max-width:100%;max-height:88vh;box-shadow:0 0 0 1px rgba(255,255,255,.07),0 50px 120px -30px color-mix(in srgb,var(--glow) 65%,transparent),0 30px 60px rgba(0,0,0,.8);transition:transform .6s}
+.piece button:hover img{transform:scale(1.015)}
+.plaque{margin:clamp(20px,2.5vw,30px) auto 0;width:fit-content;max-width:100%;padding:14px 20px;border:1px solid var(--hair);background:rgba(255,255,255,.03);display:grid;gap:4px}
+.plaque em{font:500 .62rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--glow);font-style:normal}
+.plaque b{font:400 1.3rem/1.2 var(--serif)}
+.plaque span{font-size:.8rem;color:var(--faint)}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(32px,6vw,96px);align-items:end}
+@media(max-width:760px){.pair{grid-template-columns:minmax(0,1fr)}}
+
+/* photography */
+.row{display:flex;gap:clamp(12px,1.6vw,24px);margin-bottom:clamp(12px,1.6vw,24px)}
+.row figure{flex:var(--ar,1.5) 1 0;min-width:0;position:relative}
+.row button{display:block;width:100%;cursor:zoom-in;overflow:hidden}
+.row img{width:100%;height:auto;transition:transform .9s var(--ease)}
+.row button:hover img{transform:scale(1.03)}
+.row figcaption{position:absolute;left:16px;bottom:14px;font:500 .62rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,.9);pointer-events:none}
+@media(max-width:700px){.row{flex-direction:column}.row figure{flex:none}}
+
+/* entries (essays, news) */
+.entries{border-top:1px solid var(--hair)}
+.entry{display:grid;grid-template-columns:9rem minmax(0,1fr) auto;gap:12px 32px;padding:30px 0;border-bottom:1px solid var(--hair);align-items:baseline;transition:background .3s}
+a.entry:hover{background:rgba(238,234,227,.03)}
+@media(max-width:760px){.entry{grid-template-columns:minmax(0,1fr);gap:6px}}
+.entry .k{font:500 .64rem/1.4 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+.entry h3{font:400 clamp(1.6rem,2.6vw,2.3rem)/1.1 var(--serif)}
+.entry p{margin-top:8px;color:var(--mute);max-width:46em;font-style:italic;font-family:var(--serif);font-size:1.2rem;line-height:1.35}
+.entry .arr{color:var(--faint);transition:transform .4s var(--ease),color .3s}
+a.entry:hover .arr{transform:translateX(6px);color:var(--now)}
+.news-list .entry p{font:400 1rem/1.6 var(--sans);font-style:normal}
+
+/* essay reader */
+.essay{max-width:680px}
+.essay h1{margin:22px 0 18px}
+.essay .pull{margin:36px 0;padding-left:22px;border-left:1px solid var(--now);font:italic 400 clamp(1.6rem,2.6vw,2.2rem)/1.25 var(--serif)}
+.essay .body p{font:400 1.28rem/1.7 var(--serif);color:rgba(238,234,227,.9)}
+.essay .body p+p{margin-top:1.1em}
+
+/* about */
+.about-top{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(36px,6vw,100px);align-items:start}
+@media(max-width:860px){.about-top{grid-template-columns:minmax(0,1fr)}}
+.about-top .lead{max-width:22em;font-size:clamp(1.5rem,2.6vw,2.3rem)}
+.prose{display:grid;gap:1.2em;margin-top:32px;max-width:36em;color:var(--body)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,48px)}
+@media(max-width:860px){.three{grid-template-columns:minmax(0,1fr)}}
+.three h3{font:400 1.7rem/1.1 var(--serif);margin-top:10px}
+.three p{margin-top:8px;color:var(--mute)}
+.big-quote{padding-block:clamp(56px,10vh,120px);border-top:1px solid var(--hair)}
+.big-quote blockquote{font:300 italic clamp(2rem,5vw,4.4rem)/1.08 var(--serif);max-width:20ch;letter-spacing:-.01em}
+.big-quote cite{display:flex;align-items:center;gap:14px;margin-top:26px;font:500 .68rem/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;font-style:normal;color:var(--mute)}
+.big-quote.r{text-align:right}.big-quote.r blockquote{margin-left:auto}.big-quote.r cite{justify-content:flex-end}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(32px,5vw,88px);align-items:start}
+@media(max-width:900px){.contact{grid-template-columns:minmax(0,1fr)}}
+.paths{display:grid;gap:10px;border:0;padding:0;margin:0;min-width:0}
+.paths legend{padding:0;margin-bottom:16px}
+.path{position:relative;display:block;cursor:pointer}
+.path input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.path span{display:block;padding:18px 22px;border:1px solid var(--hair);transition:border-color .3s,background .3s}
+.path b{display:block;font:400 1.5rem/1.1 var(--serif)}
+.path small{display:block;margin-top:4px;color:var(--mute);font-size:.88rem}
+.path:hover span{border-color:var(--hair2)}
+.path input:checked+span{border-color:var(--now);background:color-mix(in srgb,var(--now) 9%,var(--ink2))}
+.path input:focus-visible+span{outline:1px solid var(--paper);outline-offset:4px}
+form.f{display:grid;gap:18px;padding:clamp(22px,3vw,40px);background:var(--ink2);border:1px solid var(--hair)}
+.fld{display:grid;gap:8px}
+.fld label{font:500 .62rem/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+.fld input,.fld textarea{width:100%;padding:14px 16px;background:var(--ink);color:var(--paper);border:1px solid var(--hair);font:inherit;border-radius:0}
+.fld textarea{min-height:9rem;resize:vertical}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--now)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.direct{margin-top:24px;padding:18px 22px;border:1px solid var(--hair)}
+.status{padding:14px 18px;border:1px solid var(--now)}
+
+/* footer */
+footer{margin-top:clamp(40px,6vw,80px);border-top:1px solid var(--hair)}
+.foot{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr);gap:32px 64px;padding-block:clamp(40px,6vw,72px)}
+@media(max-width:760px){.foot{grid-template-columns:minmax(0,1fr)}}
+.foot nav{display:flex;flex-wrap:wrap;gap:12px 26px}
+.foot nav a,.foot .soc a{font:500 .68rem/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);transition:color .3s}
+.foot nav a:hover,.foot .soc a:hover{color:var(--paper)}
+.foot .soc{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:22px}
+.foot .small{font-size:.85rem;color:var(--faint);margin-top:14px;max-width:46em}
+.stage{display:inline-block;margin-top:14px;padding:6px 10px;border:1px solid var(--hair);font:500 .58rem/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:#e9c46a}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(3,3,4,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb img{max-width:min(94vw,1500px);max-height:80vh;width:auto;height:auto;object-fit:contain;box-shadow:0 30px 100px rgba(0,0,0,.8)}
+.lb-cap{text-align:center;font-size:.88rem;color:var(--mute)}
+.lb-cap b{display:block;color:var(--paper);font:400 1.3rem/1.3 var(--serif)}
+.lb button{position:absolute;display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--hair2);background:rgba(5,5,6,.7);font-size:1.3rem;transition:border-color .2s}
+.lb button:hover{border-color:var(--paper)}
+.lb .x{top:max(16px,env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px))}
+.lb .p{left:max(10px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%)}
+.lb .n{right:max(10px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%)}
+@media(max-width:700px){.lb .p,.lb .n{top:auto;bottom:max(16px,env(safe-area-inset-bottom,0px));transform:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+</head><body><header class="hdr" id="hdr">
+  <a class="mark" href="#home">Isa <em>Totah</em></a>
+  <nav class="nav" aria-label="Primary">
+    <ul>
+      <li><a href="#home" data-nav="home">Home</a></li>
+      <li><a href="#director" data-nav="director">Director</a></li>
+      <li><a href="#actor" data-nav="actor">Actor</a></li>
+      <li><a href="#speaker" data-nav="speaker">Speaker</a></li>
+      <li class="has-dd">
+        <a href="#works" class="dd-btn" data-nav="works" data-group="works art photography writing essay">Other Selected Works <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        <div class="dd">
+          <a href="#art" data-nav="art"><i style="--c:#ee6a98"></i>Art</a>
+          <a href="#photography" data-nav="photography"><i style="--c:#d8cca0"></i>Photography</a>
+          <a href="#writing" data-nav="writing"><i style="--c:#e98a4c"></i>Writing</a>
+        </div>
+      </li>
+      <li><a href="#about" data-nav="about">About</a></li>
+      <li><a href="#news" data-nav="news">News</a></li>
+      <li><a href="#contact" data-nav="contact" class="pill">Contact Us</a></li>
+    </ul>
+  </nav>
+  <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu"><span>Menu</span><b></b></button>
+</header>
+<div class="menu" id="menu" hidden>
+  <ol>
+    <li><a href="#home" data-nav="home"><i></i>Home</a></li>
+    <li><a href="#director" data-nav="director"><i style="--c:#6f8cf0"></i>Director</a></li>
+    <li><a href="#actor" data-nav="actor"><i style="--c:#e8626b"></i>Actor</a></li>
+    <li><a href="#speaker" data-nav="speaker"><i style="--c:#e9a23b"></i>Speaker</a></li>
+    <li class="grp"><span>Other Selected Works</span>
+      <ol>
+        <li><a href="#art" data-nav="art"><i style="--c:#ee6a98"></i>Art</a></li>
+        <li><a href="#photography" data-nav="photography"><i style="--c:#d8cca0"></i>Photography</a></li>
+        <li><a href="#writing" data-nav="writing"><i style="--c:#e98a4c"></i>Writing</a></li>
+      </ol>
+    </li>
+    <li><a href="#about" data-nav="about"><i style="--c:#d8738f"></i>About</a></li>
+    <li><a href="#news" data-nav="news"><i style="--c:#4fc3c8"></i>News</a></li>
+    <li><a href="#contact" data-nav="contact"><i style="--c:#8fd0e6"></i>Contact Us</a></li>
+  </ol>
+</div>
+
+<main id="app">
+
+<!-- ===================== HOME ===================== -->
+<div class="page" data-page="home">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero-photo"><img src="isa.jpg" alt="Black and white portrait of Isa Totah in a dark coat, window light falling across the wall behind him" fetchpriority="high"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-bottom wrap">
+      <p class="label plain rise"><i></i><span>Writer-director <span style="color:var(--faint)">&middot;</span> Speaker</span></p>
+      <h1 class="hero-title rise d1" id="hero-h">Isa <em>Totah</em></h1>
+      <p class="hero-line rise d2">Stories that carry hope.</p>
+      <p class="hero-intro rise d3">A writer-director whose films affirm the human spirit, and a speaker and consultant on artistic careers and bringing more art into life.</p>
+      <p class="acts rise d3"><a class="btn solid go" href="#director">See the films <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="btn" href="#speaker">Speaking &amp; consulting</a></p>
+    </div>
+  </section>
+
+  <!-- Director -->
+  <section class="dir" aria-labelledby="dir-h">
+    <figure class="dir-media"><img loading="lazy" src="qtt-stage.jpg" alt="Ben Vereen, seen from behind, alone on the stage of an empty theater in Quarter to Three"><figcaption class="dir-cap">Still from <em>Quarter to Three</em></figcaption></figure>
+    <div class="dir-copy wrap"><div style="--now:#6f8cf0">
+      <p class="label"><i></i>Director</p>
+      <h2 class="h2" id="dir-h" style="margin:24px 0 24px">Stories for the <em>screen</em></h2>
+      <p class="lead">Summer 2020. After yet another devastating event in his life, Martin looks for solace in the one place he&rsquo;s felt most at peace: the theater.</p>
+      <p class="meta"><em style="font:400 1.05rem var(--serif);letter-spacing:0;text-transform:none;color:var(--paper)">Quarter to Three</em> &middot; Short film &middot; Starring Ben Vereen &middot; Written &amp; directed by Isa Totah</p>
+      <p class="laurel"><span class="dot" style="--c:#6f8cf0"></span><span><b>Woodstock Film Festival</b> &middot; Official Selection, 2023</span></p>
+      <p class="copy" style="margin-top:22px">Isa&rsquo;s short films include <em>The Pick Up</em>, <em>Battle</em>, <em>Ed</em>, <em>Gone</em> and <em>Quarter to Three</em>. His feature script <em>America</em> is in development with Academy Award-winning producer Mark Johnson.</p>
+      <p class="acts" style="margin-top:32px"><a class="btn go" href="#director" style="--gl:#6f8cf0">Director page <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch ext" href="https://www.imdb.com/name/nm0869299/" target="_blank" rel="noopener" style="--gl:#6f8cf0">IMDb <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a></p>
+    </div></div>
+  </section>
+
+  <!-- Actor -->
+  <section class="sec wrap" aria-labelledby="act-h" style="--now:#e8626b">
+    <div class="split">
+      <figure class="fig-frame glow" style="--c:#e8626b"><div class="ar-45 feather"><img loading="lazy" src="portrait-bw-08.jpg" alt="Black and white portrait of Isa Totah smiling, resting his head on his hand" style="object-position:44% 50%"></div></figure>
+      <div>
+        <p class="label"><i></i>Actor</p>
+        <h2 class="h2" id="act-h" style="margin:24px 0">First, the <em>stage</em></h2>
+        <p class="copy">Nine months into his first acting class, Isa was cast as an actor and member of the writing team of <em>Seeing Double</em> with the San Francisco Mime Troupe. The play won an Obie Award for its New York run.</p>
+        <dl class="facts">
+          <div><dt>Stage</dt><dd><em>Seeing Double</em>, San Francisco Mime Troupe &middot; Obie Award</dd></div>
+          <div><dt>Screen</dt><dd>HBO&rsquo;s <em>From the Earth to the Moon</em></dd></div>
+          <div><dt>Studied</dt><dd>Milton Katselas, for over a decade</dd></div>
+        </dl>
+        <p class="acts" style="margin-top:34px"><a class="btn go" href="#actor" style="--gl:#e8626b">Actor page <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch ext" href="https://vimeo.com/183352522" target="_blank" rel="noopener" style="--gl:#e8626b">Acting reel <span>3 min</span> <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Speaker -->
+  <section class="sec wrap" aria-labelledby="spk-h" style="--now:#e9a23b;padding-top:0">
+    <div class="split" style="grid-template-columns:minmax(0,6fr) minmax(0,5fr)">
+      <div style="order:2" class="spk-copy">
+        <p class="label"><i></i>Speaker</p>
+        <h2 class="h2" id="spk-h" style="margin:24px 0">Art, imagination <em>&amp; aesthetics</em></h2>
+        <p class="copy">A public speaker with over three decades of experience, Isa has spoken to audiences around the world, with live and virtual seminars in 18 countries. His talks help audiences discover their own creativity and break through limitations.</p>
+        <ul class="sem"><li>The Joy of Creating</li><li>The Power of Imagination</li><li>The Power of Aesthetics</li><li>The Power of an Artist</li></ul>
+        <figure class="pq"><p>&ldquo;My favorite speaker, ever!&rdquo;</p><span>N.W.</span></figure>
+        <p class="acts" style="margin-top:34px"><a class="btn go" href="#speaker" style="--gl:#e9a23b">Speaker page <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch" href="#contact-speaking" style="--gl:#e9a23b">Book a talk</a></p>
+      </div>
+      <figure class="fig-frame glow" style="--c:#e9a23b"><div class="ar-169 feather"><img loading="lazy" src="teaching.jpg" alt="Isa Totah speaking on a stage in front of a seated audience"></div><figcaption class="cap">Isa speaking</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- Other works -->
+  <section class="sec wrap" aria-labelledby="works-h" style="padding-top:0">
+    <div class="sec-head"><p class="label"><i style="--now:#ee6a98"></i>Other Selected Works</p><h2 class="h2" id="works-h">Paint, light <em>&amp; the page</em></h2><p class="mute" style="max-width:22em">Paintings, photographs and writing.</p></div>
+    <div class="works-grid">
+      <figure class="w-paint glow" style="--c:#e0201a">
+        <p class="w-k"><span class="dot" style="--c:#ee6a98"></span>Art</p>
+        <a href="#art" aria-label="Art: see the paintings"><img loading="lazy" src="art-boy.jpg" alt="Painting of a boy with a red face and pale eyes against a teal background"></a>
+        <figcaption class="w-row"><span class="note">Untitled</span><a class="watch go" href="#art" style="--gl:#e0201a">See the paintings</a></figcaption>
+      </figure>
+      <div class="w-side">
+        <figure class="glow" style="--c:#cfd3dc">
+          <p class="w-k"><span class="dot" style="--c:#d8cca0"></span>Photography</p>
+          <a href="#photography" aria-label="Photography: see the photographs" class="feather-b" style="display:block"><img loading="lazy" src="photo-snow.jpg" alt="Black and white photograph of a person walking a dog through a snowy, misty forest"></a>
+          <figcaption class="w-row"><span class="note">Black &amp; white</span><a class="watch go" href="#photography" style="--gl:#d8cca0">See the photographs</a></figcaption>
+        </figure>
+        <article>
+          <p class="w-k"><span class="dot" style="--c:#e98a4c"></span>Writing</p>
+          <figure class="quote" style="--now:#e98a4c"><span class="qm" aria-hidden="true">&ldquo;</span><blockquote>It&rsquo;s how you react to the bad days that makes the difference between a winner and a loser.</blockquote><figcaption class="who">Up the Down Escalator<span>Essay &middot; 2 min read</span></figcaption></figure>
+          <p class="acts" style="margin-top:12px"><a class="watch" href="#essay-up-the-down-escalator" style="--gl:#e98a4c">Read the essay</a><a class="watch" href="#writing" style="--gl:#e98a4c">All writing</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quotes -->
+  <section class="sec wrap" style="padding-top:0" aria-labelledby="q-h">
+    <p class="label" style="margin-bottom:32px"><i></i><span id="q-h">In their words</span></p>
+    <div class="grid-2">
+      <figure class="quote ph"><span class="qm" aria-hidden="true">&ldquo;</span><blockquote>Quote from Mark Johnson to be added.</blockquote><figcaption class="who">Mark Johnson<span>Producer &middot; placeholder</span></figcaption></figure>
+      <figure class="quote ph"><span class="qm" aria-hidden="true">&ldquo;</span><blockquote>Quote from Lou DiGiaimo to be added.</blockquote><figcaption class="who">Lou DiGiaimo<span>Casting director &middot; placeholder</span></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="sec wrap" style="padding-top:0;--now:#4fc3c8" aria-labelledby="news-h">
+    <div class="sec-head"><p class="label"><i></i>News</p><h2 class="h3" id="news-h">Updates <em>&amp; announcements</em></h2><a class="watch go" href="#news">All news</a></div>
+    <div class="grid-3" id="home-news"></div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-band" aria-labelledby="c-h">
+    <div class="wrap">
+      <p class="label plain" style="justify-content:center"><i></i>Contact</p>
+      <h2 class="h2" id="c-h">Write to <em>Isa</em></h2>
+      <div class="email-line"><a class="email-text" id="m-gen" href="mailto:itotah@gmail.com">itotah@gmail.com</a><button class="btn sm copy" type="button" data-copy="#m-gen">Copy email</button></div>
+      <p class="mute" style="margin:18px 0 38px">Media, collaborations, art and general contact.</p>
+      <p class="kick" style="margin-bottom:12px">Speaking bookings</p>
+      <div class="email-line" style="margin-bottom:40px"><a class="email-text sm" id="m-book" href="mailto:allison@totahfoundation.com">allison@totahfoundation.com</a><button class="btn sm copy" type="button" data-copy="#m-book">Copy email</button></div>
+      <a class="btn solid go" href="#contact">Contact Us <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DIRECTOR ===================== -->
+<div class="page" data-page="director" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="isa.jpg" alt="" style="object-position:50% 18%"></div>
+    <div class="wrap">
+      <p class="label"><i></i>Writer &middot; Director</p>
+      <h1 class="h1">Director</h1>
+      <p class="lead">Isa writes and directs films about conflict, relationships and the search for meaning. Even when the material is heavy, the stories carry hope and a belief in people.</p>
+      <p class="acts"><a class="watch ext" href="https://www.imdb.com/name/nm0869299/" target="_blank" rel="noopener">IMDb <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch" href="#contact-film">Film inquiries</a></p>
+    </div>
+  </section>
+  <section class="wrap" style="padding-bottom:var(--pad)"><div id="films"></div>
+    <div style="margin-top:clamp(40px,8vh,90px)">
+      <p class="label" style="margin-bottom:28px"><i></i>In development &amp; coming soon</p>
+      <div class="soon" id="soon"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== ACTOR ===================== -->
+<div class="page" data-page="actor" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="portrait-bw-08.jpg" alt="" style="object-position:46% 30%"></div>
+    <div class="wrap">
+      <p class="label"><i></i>Stage &middot; Screen</p>
+      <h1 class="h1">Actor</h1>
+      <p class="lead">Before his focus turned to making films, Isa spent decades acting and teaching. That time inside the craft is the foundation for everything he does behind the camera.</p>
+      <p class="acts"><a class="btn solid ext" href="https://vimeo.com/183352522" target="_blank" rel="noopener">Watch the reel <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch ext" href="https://vimeo.com/177970193" target="_blank" rel="noopener">On quitting the acting business <span>6 min</span> <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a></p>
+    </div>
+  </section>
+  <section class="sec wrap">
+    <div class="grid-2" style="align-items:start">
+      <div>
+        <p class="label"><i></i>The work</p>
+        <dl class="facts" style="margin-top:28px;max-width:none">
+          <div><dt>Stage</dt><dd><em>Seeing Double</em>, San Francisco Mime Troupe &middot; Obie Award</dd></div>
+          <div><dt>Screen</dt><dd>HBO&rsquo;s <em>From the Earth to the Moon</em></dd></div>
+          <div><dt>Studied</dt><dd>Milton Katselas, for over a decade</dd></div>
+          <div><dt>Teaching</dt><dd>Directed hundreds of actors in plays and showcases</dd></div>
+        </dl>
+      </div>
+      <div class="prose" style="margin-top:0">
+        <p>Nine months after setting foot in his first acting class, Isa got a call to audition for an original play about the Palestinian-Israeli conflict. Despite never having auditioned before, he prepared a monologue, a headshot and a blank acting resume. He got the job as both an actor and a member of the writing team.</p>
+        <p>The company was the San Francisco Mime Troupe, where &ldquo;mime&rdquo; means storytelling with words and songs. The play opened to a record 4,000 people in Dolores Park, toured the U.S. and abroad for two years, and won the Obie Award for its New York run.</p>
+        <p>Isa then moved to Los Angeles to study with the legendary acting teacher and director Milton Katselas, and stayed for well over a decade. Katselas mentored him as both a director and an actor, and asked him to teach acting at his school.</p>
+        <p>In recent years Isa has changed his focus from the stage to the screen, writing and directing, while teaching acting in his spare time.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== SPEAKER ===================== -->
+<div class="page" data-page="speaker" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="teaching.jpg" alt="" style="object-position:60% 50%"></div>
+    <div class="wrap">
+      <p class="label"><i></i>Speaking &amp; consulting</p>
+      <h1 class="h1">Speaker</h1>
+      <p class="lead">Isa speaks and consults on artistic careers and on bringing more art into life. It is the same belief that drives his films, put to work for other people.</p>
+      <p class="acts"><a class="btn solid go" href="#contact-speaking">Inquire about a talk <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch" href="#contact-speaking">allison@totahfoundation.com</a></p>
+    </div>
+  </section>
+  <section class="sec-tight wrap">
+    <div class="grid-2" style="align-items:start">
+      <div>
+        <p class="label"><i></i>About the talks</p>
+        <div class="prose">
+          <p>Isa is a public speaker with over three decades of experience inspiring audiences across the globe. He has given live and virtual seminars in 18 countries.</p>
+          <p>Known for turning seminars into immersive experiences that blend storytelling, multimedia and insight, his talks on art, imagination and aesthetics help audiences discover their own creativity and break through limitations.</p>
+          <p>With his wife, Allison Totah, he founded the Totah Foundation for the Arts, a non-profit dedicated to building a better world through the power of art.</p>
+        </div>
+      </div>
+      <div>
+        <p class="label"><i></i>Seminars</p>
+        <ul class="sem" id="sem" style="max-width:none"></ul>
+      </div>
+    </div>
+  </section>
+  <section class="sec-tight wrap">
+    <p class="label" style="margin-bottom:28px"><i></i>What audiences say</p>
+    <div class="grid-3" id="testi"></div>
+  </section>
+  <section class="sec-tight wrap">
+    <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start">
+      <div><p class="label"><i></i>Engagements</p><p class="copy" style="margin-top:24px">London, Saint Hill (East Grinstead), Paris, Amsterdam, Padova, Verona, Lausanne, Brno and Copenhagen.</p></div>
+      <div><p class="label"><i></i>Live and virtual seminars in</p><p class="copy" style="margin-top:24px">United States, Canada, Hungary, Mexico, New Zealand, France, England, Belgium, Sweden, Denmark, Portugal, Argentina, Germany, Italy, Russia, Colombia, Brazil and South Africa.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== OTHER SELECTED WORKS ===================== -->
+<div class="page" data-page="works" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="art-radiance.jpg" alt="" style="object-position:50% 40%;opacity:.8"></div>
+    <div class="wrap">
+      <p class="label"><i></i>A life in art</p>
+      <h1 class="h1" style="font-size:clamp(3rem,8vw,8rem)">Other Selected <em>Works</em></h1>
+      <p class="lead">Painting, photography and writing run alongside the films and show a lifetime spent inside art.</p>
+    </div>
+  </section>
+  <section class="sec-tight wrap">
+    <div class="grid-3">
+      <a class="card" href="#art"><div class="thumb"><img loading="lazy" src="art-indigo.jpg" alt="Portrait painting in thick pink, red and blue paint" style="object-position:50% 30%"></div><p class="k">Seven paintings</p><h3>Art</h3><p>Thick paint, hard color and faces that look back.</p></a>
+      <a class="card" href="#photography"><div class="thumb"><img loading="lazy" src="photo-canyon.jpg" alt="Black and white photograph of a canyon with a sunburst above"></div><p class="k">Six photographs</p><h3>Photography</h3><p>Light, shadow and the people who wander into the frame.</p></a>
+      <a class="card" href="#writing"><div class="thumb"><img loading="lazy" src="portrait-bw-08.jpg" alt="Isa Totah seated and smiling"></div><p class="k">Seven essays</p><h3>Writing</h3><p>Essays on acting, story and the creative life.</p></a>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== ART ===================== -->
+<div class="page" data-page="art" hidden style="--now:#ee6a98">
+  <section class="page-hero">
+    <div class="ph-bg"><img src="art-radiance.jpg" alt="" style="object-position:50% 45%"></div>
+    <div class="wrap">
+      <p class="label"><i></i>Paintings</p>
+      <h1 class="h1">Art</h1>
+      <p class="lead">Thick paint, hard color and faces that look back. Walk the rooms and take your time. Select any painting to see it full screen.</p>
+      <p class="acts"><a class="watch" href="#contact-art">Ask about a painting</a></p>
+    </div>
+  </section>
+  <section class="gallery"><div class="wrap">
+    <article class="piece" style="--glow:#FFB000"><button data-lb="art" data-title="Untitled No. 01" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 01 full screen"><img src="art-radiance.jpg" alt="Abstract painting: a yellow ribbon curls over a red hand shape, with orange, pink and teal fields and a black diagonal slash"></button><div class="plaque"><em>No. 01 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+    <div class="pair">
+      <article class="piece" style="--glow:#FF4A1C"><button data-lb="art" data-title="Untitled No. 02" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 02 full screen"><img loading="lazy" src="art-ember.jpg" alt="Abstract painting in dense red, black and yellow"></button><div class="plaque"><em>No. 02 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+      <article class="piece" style="--glow:#FF2D3D"><button data-lb="art" data-title="Untitled No. 03" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 03 full screen"><img loading="lazy" src="art-fracture.jpg" alt="Abstract painting of thick white, grey and black palette-knife strokes with a streak of red"></button><div class="plaque"><em>No. 03 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+    </div>
+    <article class="piece" style="--glow:#C98A5E"><button data-lb="art" data-title="Untitled No. 04" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 04 full screen"><img loading="lazy" src="art-earth.jpg" alt="Abstract painting in cream, rust brown and slate grey blocks with a thin black line"></button><div class="plaque"><em>No. 04 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+    <div class="pair">
+      <article class="piece" style="--glow:#3B4DFF"><button data-lb="art" data-title="Untitled No. 05" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 05 full screen"><img loading="lazy" src="art-indigo.jpg" alt="Portrait of a woman with long blue hair, painted in thick pink and red strokes"></button><div class="plaque"><em>No. 05 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+      <article class="piece" style="--glow:#00C2D1"><button data-lb="art" data-title="Untitled No. 06" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 06 full screen"><img loading="lazy" src="art-boy.jpg" alt="Portrait of a boy with a red face and pale eyes against a teal background"></button><div class="plaque"><em>No. 06 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+    </div>
+    <article class="piece" style="--glow:#E9E4EE"><button data-lb="art" data-title="Untitled No. 07" data-sub="Medium and dimensions to be added" aria-label="View Untitled No. 07 full screen"><img loading="lazy" src="art-cry.jpg" alt="Black and white painting of a figure with mouth open in a cry, built from thick palette-knife strokes"></button><div class="plaque"><em>No. 07 of 07</em><b>Untitled</b><span>Medium and dimensions to be added</span></div></article>
+  </div></section>
+  <section class="sec-tight wrap"><div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><h2 class="h3">Interested in a painting?</h2><div><p class="copy">For availability, commissions or exhibition inquiries, get in touch.</p><p class="acts" style="margin-top:22px"><a class="btn go" href="#contact-art">Art inquiries <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a></p></div></div></section>
+</div>
+
+<!-- ===================== PHOTOGRAPHY ===================== -->
+<div class="page" data-page="photography" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="photo-snow.jpg" alt="" style="object-position:50% 60%"></div>
+    <div class="wrap">
+      <p class="label"><i></i>Photographs</p>
+      <h1 class="h1">Photography</h1>
+      <p class="lead">Light, shadow and the people who wander into the frame. Select a photograph to see it full screen.</p>
+    </div>
+  </section>
+  <section class="sec-tight wrap" style="padding-top:0">
+    <div class="row"><figure style="--ar:1.33"><button data-lb="photo" data-title="Plate I" data-sub="Title and location to be added" aria-label="View Plate I full screen"><img src="photo-canyon.jpg" alt="Black and white photograph of a canyon between two dark cliffs with a sunburst in the sky"></button><figcaption>Plate I</figcaption></figure></div>
+    <div class="row"><figure style="--ar:1.5"><button data-lb="photo" data-title="Plate II" data-sub="Title and location to be added" aria-label="View Plate II full screen"><img loading="lazy" src="photo-gate.jpg" alt="Black and white photograph of an airliner seen through a terminal window, with a small figure sitting in silhouette"></button><figcaption>Plate II</figcaption></figure><figure style="--ar:1.33"><button data-lb="photo" data-title="Plate III" data-sub="Title and location to be added" aria-label="View Plate III full screen"><img loading="lazy" src="photo-horse.jpg" alt="Close black and white photograph of a horse's face and eye, with a wind-blown mane"></button><figcaption>Plate III</figcaption></figure></div>
+    <div class="row"><figure style="--ar:1.5"><button data-lb="photo" data-title="Plate IV" data-sub="Title and location to be added" aria-label="View Plate IV full screen"><img loading="lazy" src="photo-snow.jpg" alt="Black and white photograph of a person walking a dog across snow toward misty, dark trees"></button><figcaption>Plate IV</figcaption></figure><figure style="--ar:1.33"><button data-lb="photo" data-title="Plate V" data-sub="Title and location to be added" aria-label="View Plate V full screen"><img loading="lazy" src="photo-figures.jpg" alt="Black and white photograph of two mannequins in headscarves beside a stone archway"></button><figcaption>Plate V</figcaption></figure></div>
+    <div class="row"><figure style="--ar:1.5"><button data-lb="photo" data-title="Plate VI" data-sub="Title and location to be added" aria-label="View Plate VI full screen"><img loading="lazy" src="photo-city.jpg" alt="Color photograph of a glass-fronted bar reflecting glowing city signs"></button><figcaption>Plate VI</figcaption></figure></div>
+  </section>
+</div>
+
+<!-- ===================== WRITING ===================== -->
+<div class="page" data-page="writing" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="portrait-bw-08.jpg" alt="" style="object-position:50% 30%"></div>
+    <div class="wrap">
+      <p class="label"><i></i>Essays</p>
+      <h1 class="h1">Writing</h1>
+      <p class="lead">Essays on acting, story and the creative life. Select one to read it.</p>
+    </div>
+  </section>
+  <section class="sec-tight wrap" style="padding-top:0"><div class="entries" id="essays"></div></section>
+</div>
+
+<!-- ===================== ESSAY (dynamic) ===================== -->
+<div class="page" data-page="essay" hidden>
+  <section class="wrap narrow" style="padding-top:calc(var(--hdr) + env(safe-area-inset-top,0px) + clamp(48px,10vh,110px));padding-bottom:var(--pad)">
+    <div class="essay" id="essay-body"></div>
+  </section>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<div class="page" data-page="about" hidden>
+  <section class="page-hero" style="padding-bottom:20px">
+    <div class="wrap"><p class="label"><i></i>About</p><h1 class="h1">Isa <em>Totah</em></h1></div>
+  </section>
+  <section class="sec-tight wrap" style="padding-top:20px">
+    <div class="about-top">
+      <div>
+        <p class="lead">Isa Totah is a multi-disciplinary artist, filmmaker, actor, speaker, writer, and visual storyteller whose work spans film, theater, painting, and photography.</p>
+        <div class="prose">
+          <p>At the center of it is one idea: storytelling that carries hope. Isa is a writer-director whose films and screenplays explore conflict, relationships, and the search for meaning, always with an underlying optimism about people.</p>
+          <p>After more than thirty years working across stage, screen, and visual art, his focus is making films. He also speaks and consults on artistic careers and on the role of aesthetics and creativity in a life well lived.</p>
+          <p>Born in Jerusalem and raised in San Francisco&rsquo;s Sunset District, Isa now works in Los Angeles. His work, whether on screen or in conversation, is rooted in the conviction that art can affirm the human spirit and make the world a little better.</p>
+        </div>
+        <p class="acts" style="margin-top:32px"><a class="watch ext" href="https://www.imdb.com/name/nm0869299/" target="_blank" rel="noopener">IMDb <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a><a class="watch ext" href="https://x.com/isatotah" target="_blank" rel="noopener">X <span>@isatotah</span> <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></a></p>
+      </div>
+      <figure class="glow" style="--c:#d8738f"><div class="feather-b"><img loading="lazy" src="isa.jpg" alt="Black and white portrait of Isa Totah" style="width:100%"></div></figure>
+    </div>
+  </section>
+  <section class="sec-tight wrap">
+    <div class="three">
+      <div><p class="kick">First</p><h3>Films</h3><p>Writer-director and screenwriter, making stories that matter and are grounded in hope.</p></div>
+      <div><p class="kick">Also</p><h3>Speaking &amp; consulting</h3><p>Helping other people use art and storytelling to improve their work and the world around them.</p></div>
+      <div><p class="kick">Foundation</p><h3>A life in art</h3><p>Decades of acting and teaching, with a serious practice in painting and photography.</p></div>
+    </div>
+  </section>
+  <section class="big-quote"><div class="wrap"><blockquote>&ldquo;The missing element is almost always the person themselves&mdash;their persistence, their focus, their willingness to keep going.&rdquo;</blockquote><cite><i class="dot"></i>Isa Totah</cite></div></section>
+  <section class="big-quote r"><div class="wrap"><blockquote>&ldquo;Popular success is not the opposite of artistic integrity. Quitting is.&rdquo;</blockquote><cite><i class="dot"></i>Isa Totah</cite></div></section>
+  <section class="big-quote"><div class="wrap"><blockquote>&ldquo;Everyone is an artist.&rdquo;</blockquote><cite><i class="dot"></i>Isa Totah</cite></div></section>
+</div>
+
+<!-- ===================== NEWS ===================== -->
+<div class="page" data-page="news" hidden>
+  <section class="page-hero">
+    <div class="ph-bg"><img src="qtt-profile.jpg" alt="" style="object-position:70% 40%"></div>
+    <div class="wrap"><p class="label"><i></i>Latest</p><h1 class="h1">News</h1><p class="lead">Updates, project announcements, exhibitions, and speaking news and upcoming events.</p></div>
+  </section>
+  <section class="sec-tight wrap" style="padding-top:0"><div class="entries news-list" id="news-all"></div><p class="note" style="margin-top:14px">Items marked placeholder will be replaced with real news.</p></section>
+</div>
+
+<!-- ===================== CONTACT ===================== -->
+<div class="page" data-page="contact" hidden>
+  <section class="page-hero" style="padding-bottom:40px">
+    <div class="wrap"><p class="label"><i></i>Contact</p><h1 class="h1">Contact <em>Us</em></h1><p class="lead">Choose the kind of inquiry so it reaches the right place.</p></div>
+  </section>
+  <section class="sec-tight wrap" style="padding-top:20px">
+    <div class="contact">
+      <div>
+        <fieldset class="paths">
+          <legend class="label plain">I am writing about</legend>
+          <label class="path"><input type="radio" name="topic" value="film" checked><span><b>Film &amp; bookings</b><small>Projects, financing, distribution, directing</small></span></label>
+          <label class="path"><input type="radio" name="topic" value="speaking"><span><b>Speaking &amp; consulting</b><small>Seminars, talks, consulting</small></span></label>
+          <label class="path"><input type="radio" name="topic" value="media"><span><b>Media &amp; press</b><small>Interviews, features, images</small></span></label>
+          <label class="path"><input type="radio" name="topic" value="art"><span><b>Art &amp; collaborations</b><small>Paintings, photography, exhibitions, commissions</small></span></label>
+          <label class="path"><input type="radio" name="topic" value="general"><span><b>General</b><small>Anything else</small></span></label>
+        </fieldset>
+        <div class="direct"><p class="kick">Email directly</p><div class="email-line" style="justify-content:flex-start;margin-top:10px"><a class="email-text sm" id="m-dir" href="mailto:itotah@gmail.com">itotah@gmail.com</a><button class="btn sm copy" type="button" data-copy="#m-dir">Copy email</button></div></div>
+      </div>
+      <form class="f" id="cf" novalidate>
+        <div class="two"><div class="fld"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div><div class="fld"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div></div>
+        <div class="fld"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required></textarea></div>
+        <div><button class="btn solid go" type="submit">Send inquiry <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg></button></div>
+        <p class="status" id="f-status" role="status" hidden></p>
+        <p class="note">This is a staging site: the form does not send yet. Please email directly in the meantime.</p>
+      </form>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="mark" href="#home">Isa <em>Totah</em></a>
+      <p class="small">Writer-director. Speaker. Stories that carry hope.</p>
+      <span class="stage">Staging preview</span>
+    </div>
+    <div>
+      <nav aria-label="Footer"><a href="#director">Director</a><a href="#actor">Actor</a><a href="#speaker">Speaker</a><a href="#art">Art</a><a href="#photography">Photography</a><a href="#writing">Writing</a><a href="#about">About</a><a href="#news">News</a><a href="#contact">Contact Us</a></nav>
+      <p class="soc"><a class="ext" href="https://www.imdb.com/name/nm0869299/" target="_blank" rel="noopener">IMDb &#8599;</a><a class="ext" href="https://x.com/isatotah" target="_blank" rel="noopener">X &#8599;</a><a class="ext" href="https://vimeo.com/183352522" target="_blank" rel="noopener">Vimeo &#8599;</a></p>
+      <p class="small">&copy; Isa Totah. Text marked &ldquo;to be added&rdquo; or &ldquo;placeholder&rdquo; is not final.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="x" id="lb-x" aria-label="Close">&times;</button>
+  <button class="p" id="lb-p" aria-label="Previous">&#8592;</button>
+  <button class="n" id="lb-n" aria-label="Next">&#8594;</button>
+  <img id="lb-img" alt="">
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<script>
+(function(){
+  var ARW='<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>';
+  var EXT='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>';
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function $(s,r){return (r||document).querySelector(s)}
+
+  var ESSAYS=[{"slug": "comedy-is-a-serious-business", "title": "Comedy Is a Serious Business", "kind": "Essay", "summary": "Why comedy only works when it is played as truthfully as drama.", "pull": "Actors often take the fact that they are performing comedy to let up on the gas pedal, when they should be flooring it.", "min": 7, "p": ["Over the years, I've learned a few things about humor. Even in the broadest form of comedy, audiences have to relate to the characters and their experiences. They have to believe that the fiction happening on the screen or stage is, to some degree, real. They have to believe that the characters are real people going through real situations. American playwright Neil Simon's comedic plays are wonderful, but they work best with brilliant actors — actors that do the same work they would do if they were doing a serious drama. In that way, the \"jokes\" disappear and the audiences gets transported into the story. The more immersed the audience, the more laughter.", "The more an audience doesn't believe the characters and situations, the less they laugh. The more an audience smells there are jokes in the writing, the less they will laugh.", "Take stand-up comics. They tell very carefully constructed jokes but do everything they can to disguise that they are telling jokes. The more the audience believes they were just at the \"supermarket,\" telling an anecdote from their life, the more they laugh. The same can be said for actors in movies or on stage. If your script is laden with jokes, it's the actors' and director's job to disguise them, to motivate them — the characters don't know they are being funny, they are genuinely upset about something.", "Great writing is never enough, regardless if it's dramatic or comedic. It takes brilliant acting and directing to pull off great writing. When I was 17, my high school teacher flew a bunch of students to Stratford, England to see The Royal Shakespeare Company's A Midsummer Night's Dream. I wasn't looking forward to it, because we had studied Shakespeare in class, it was nothing more than a ball of confusion. However, the play was transcendent — to this day, the best piece of theater I've ever seen. I understood every syllable, and was taken on a ride in a forest of humor, fantasy and romance. It was hilarious and inspiring — I'll never forget it. A couple of years later, I heard that San Francisco State University was putting on the same play. I bought several tickets and took my friends to see it. I promised them it would be the experience of their lives. Needless to say, it wasn't. Not only was there no humor, the audience was bored silly. Same brilliant writing with an inexperienced cast and director, and you couldn't recognize the play we saw in Stratford.", "In acting classes over the years, I've seen this theory proven time and again. How many times have I seen classics like Death of a Salesman or The Glass Menagerie butchered on one night and sublime on another, depending on the actors and director. It's the choices directors and actors make that bring the written words to life. This is true for drama and comedy alike, but it's in comedy where the mistake of superficial choices is most often made. Actors often take the fact that they are performing comedy to let up on the gas pedal, when they should be flooring it.", "I saw a comedic play once with friends. It was terrible and not funny at all. My friends thought the writing was suspect but I knew otherwise. The actors and director made surface choices with caricatures for characters — they were not real people that the audience could relate to. My friends didn't believe me until two weeks later, a student in our acting class did a scene from the same play. It was one of the funniest things we'd ever seen. Why? He committed to his choices and did his work. He was a real person in a real situation — not some goofy character that doesn't exist in real life. In class, the scene got uproarious laughs and a standing ovation. In the theater, the same scene in front of a packed house got blank stares.", "Similarly, I was directing a reading of my screenplay America for producers and invited guests, and we had a terrible practice read-through because the actors were treating it as a \"comedy,\" sketching their characters superficially. I was working with one actor to make the character more believable and his response was, \"but this character is larger than life!\" \"Yes, but he exists!\" I responded. The characters in Saturday Night Fever are also larger than life, but if you were in Brooklyn in the 70's, you would find these very people. His character was not a cartoon, but a real person with some outrageous dialogue! When you imbue your characters with reality, they come alive for the audience. The actor understood and went home and did his homework. The next night's reading in front of an audience was off the charts in laughs and emotions. His character, in particular, got some of the biggest laughs of he night, and all because he made him into a real person with real emotions. Two audience members told me the reading was the best thing they'd ever seen.", "Even in sketch comedy, the audience wants an element of truth. The best sketch actors create characters that are realistic within the sketch comedy genre, like Mike Meyer's Wayne in Wayne's World, or Eddie Murphy's Mr. Robinson. Both those characters, while \"sketched\" superficially, are still quite relatable, specific and real. The less depth of the choices, the more obvious the \"jokes,\" the less the audience is immersed and the more superficial the laughs — if any.", "That's why filmmakers will often place \"based on a true story,\" at the start of their film. It's a gimmick to help the audience believe. And when you break the rule of belief, the audience will talk about it all the way home, \"That would never happen…\"", "With humor, too often, actors and directors don't do the same work they would do on a drama. The best sit-coms, in my opinion, had brilliant writing, acting and directing. I'm talking about shows like The Larry Sanders Show, Cheers, Taxi, M*A*S*H, Friends and others. Yes, the characters were often broad, but still believable. And that pulled the audience into the stories for a more immersive experience, and deeper laughs. Even Andy Kauffman's broadly stroked Taxi character, Latka Gravas, was believable — that's what made Kauffman so brilliant and difficult, he went so deep into his zany characters, many were convinced he had a disorder!", "The audience needs to be transported into the story to have an emotional experience. That happens when they can relate to characters and situations — recognize them from their own lives. The more an audience believes, the more transported into the story they are, the richer their emotional ride will be. This includes laughter. The more they buy in, the richer the laughs. Actors create that \"buy in\" by taking comedy as seriously as they would when preparing for a drama. Ralph Kramden in The Honeymooners doesn't hold back when he threatens to send Alice to the moon. If he did, it wouldn't have been as funny.", "However, each genre has an imaginary \"too much\" line. Audiences will buy into more preposterous scenarios and characters in slapstick and sketch comedy than, say a dramedy, but even within the broader genres, there is a line that must not be crossed or the audience will reject it as \"too much\" or \"over the top. When sketch comedy doesn't work, it's often because this principle has been violated — the sketch characters are totally non-relatable or un-recognizable, even within the broad leeway of sketch. Acting coaches may also say the choices were, \"not specific or too general.\"", "Suspension of disbelief applies to all styles and genres. While the audience will allow more leeway with broader comedies, the principle of belief still applies. Yes, it's obviously Dana Carvey in drag doing the Church Lady on Saturday Night Live, but there is something about her that we buy, even in this broad sketch. We can imagine someone like her exists in, perhaps, less exaggerated form.", "Now there is a caveat — darker elements like deep hatred and real pain don't mix too well in a comedy or risk turning it into a drama. This can be okay if that's your story arc. Many stories start with laughs and turn in the third act to more serious tones. That's fine and even desirable. Some of the best movies follow this structure. The Graduate is very funny up until the final act. But if that's not your intention, too much pain and anger will push the audiences' buttons and douse the laughs. Ralph Kramden can get angry as hell, and he genuinely is angry, but the audience knows it's all huff and puff — that underneath it all, he is really a teddy bear who loves his wife. If his emotions or actions became too dark, such as making good on his threat to strike Alice physically, then we are no longer in a comedy.", "But outside of that extreme, comedy is served by digging deep and imbuing your characters with life — make them come alive as real people — however outrageous they may be. Give them strong opinions, emotions and passions. Immerse the audience in the story and the funnier it will be. The situation may be ridiculous, but the characters don't know that — to them, it's life and death. But from the outside, we will laugh at the insanity of it all."]}, {"slug": "america", "title": "The Story of America", "kind": "Director's statement", "summary": "Why Isa wrote America: an American story first, told through the eyes of an Arab-American family.", "pull": "It's the story of finding your voice in a cacophony of voices.", "min": 3, "p": ["I wrote America when I was a teenager. I sketched the story in my mind minutes after I had seen Diner, Barry Levinson's first film. Diner reminded me of hanging out with my friends at Villa Romana Pizzeria. We would sit every night, talking about girls and making our mark in the world over a large pepperoni and mushroom pizza. Ironically the man who produced Diner, Mark Johnson, is now producing America.", "I also wrote America when I was four and the neighborhood kids were doing the kid thing — teasing me and my brother about our Arabic accents and demanding that we \"go back to where we came from.\" Back then, I ached to belong — to be accepted by my peers — an ache that never fully went away.", "And I wrote it in Mrs. Cajanouri's fifth grade class at Columbus Elementary School. We had just seen a film about Arabs — they lived in tents, were illiterate and had bad teeth. By the time the lights came on, I had shrunk so low in my seat, my head was barely above the desk that my chair was attached to. Sensing my embarrassment, Mrs. Cajanouri explained to the class that most Arabs lived in modern cities and were no different than the children in our class. I straightened myself in my desk as she winked at me. \"My husband is from Lebanon,\" she whispered and I smiled from inside.", "Or during my \"political\" period when I became president of the local chapter of the American-Arab Anti-Discrimination Committee. We'd go to political rallies and write letters to Hollywood producers politely asking them to occasionally depict Arabs who were not megalomaniacs or misogynists. And, occasionally, we would strike a chord like when the Smurfs creators responded with a story about an Arab princess. But the vast majority of the time, our letters fell on deaf ears as Dr. Jack Shaheen's book Reel Bad Arabs documents all too well.", "And I wrote it during a surreal moment of watching the 49ers win the Super Bowl on the day of my father's funeral; and when my uncle Abe got shot by a robber; and when mom accidentally pulled a fire alarm and we hid as the fire trucks rounded the corner. There are countless moments from my childhood that formed America — too many to go through.", "And each time, I imagined a film that just opened a window into my colorful extended family without preaching or pontificating. I would tell myself that one day, I'll make a movie, one day… And that day has come.", "I'm sure that growing up as a first generation Arab-American is no different than growing up as a first generation Irish-American or an Italian-American or Chinese-American, or any other American. Each of us took a turn as the new-kids-on-the-block and each of us endured the initiation before we passed the baton to the next group.", "I always felt that America was an American story first and an Arab story second, in the same way that Saturday Night Fever and Diner are not Italian or Jewish stories per se. It's the story of finding your voice in a cacophony of voices. It's a universal story that happens to be told through the eyes of Arab-Americans.", "I chose a mix of humor and drama to tell the tale because I've always felt that to be an irresistible combination. Humor disarms and allows an audience to embrace the characters, to even \"become\" them.", "That's the theory, at least.", "And I wanted it to be truthful — not whitewash the dirty laundry. And more than anything, I wanted it to be entertaining. It had to take the audience on a ride. Yes, beneath the humor and story is a message — a simple, \"hey, we're not so different than you.\" But it's left for the audience to discover by putting forth an un-sanitized view of my extended family.", "It's safe to say that Arabs are one of the most misunderstood people in the world today. And much of the strife on this planet involves Arabs. No need to list all the conflicts, just turn on the news. It's my belief that there's a correlation between war and a lack of understanding. My hope is America sheds some light into the arena.", "Indeed, I am an Arab-American. But I genuinely believe that dispelling stereotypes about one group will benefit all groups. If we sanction the violation of civil rights of one ethnicity, then everyone is in danger.", "America is meant to be entertaining. It's meant to be funny. It's meant to take the audience on a ride they will enjoy. And it's meant to shine a light on Arabs in the hope it will shine a small light on all of us."]}, {"slug": "a-day-in-the-life-of-an-actor", "title": "A Day in the Life of an Actor", "kind": "Fiction", "summary": "A short story: a blown audition, a hangover, and a phone call nobody expected.", "pull": "Yesterday was the worst day of my life.", "min": 8, "p": ["8:00 A.M. The alarm pounds my hung-over temples. I reach by the nightstand and slam my fist in the general direction of the snooze button. Eight more minutes.", "Yesterday was the worst day of my life. I had a massive audition and the douche-bag casting director barely looked me in the eye. I had nothing to work with — nothing. It's as if she decided I was wrong for the part the second I walked into the room. It was over before it began. And rather than let that fuel me, I let it get to me. Went up on my lines, three times, mumbled my way through the audition, then had the stupidity to ask if I could do it again. \"That won't be necessary,\" she snarled, and the next thing I remember, I was walking through the waiting area, past all of the other actors. One looked at me with an evil twinkle in his eye, \"You didn't get it, huh? Better luck next time.\" \"Fuck you,\" I beamed back at him.", "Just twenty-four hours earlier, I was so ecstatic that I got the audition in the first place. I got the email from Deb, my agent, and couldn't believe what I read. An audition for an outstanding scene in a film by my all time favorite director, David Fincher! I spent the next several hours deluding myself into thinking that this was it — the big break I'd been waiting for. All the years of suffering would finally pay off. On the outside, I kept a nonchalant demeanor, but inside, my heart was doing triple-time. I even shelled out a hundred bucks of hard earned tips for a private coach.", "But like bad sex, it was over before it started. In and out in less than four minutes.", "I left the audition feeling hopeless. The pain in my being was excruciating. I couldn't remember why I got into this business in the first place. Why do I put myself through this? You'd have to be a masochist to love auditioning, and I was always a wimp when it came to pain. A paper cut is enough to ruin my week, and here I am asking to be kicked in the balls on a daily basis. Maybe I should move back to Santa Rosa.", "My girlfriend, Beth, called and asked the obligatory \"supportive girlfriend\" question: \"How'd it go, babe?\" At first I gave her the usual bullshit about it being okay, and that it's hard to tell, blah, blah, blah. But ten seconds later, I vomited all of my neurosis on her. \"It was horrible. I can't act. The worst audition of my life! I'm a terrible auditioner — I'll never work in this business. I blew the best chance I've had in years. I don't want to do it any more!\" \"Well, you probably should quit,\" she responded. Beth always knew how to shut me up. She was stingy when it came to sympathy. I had no choice but to wallow in my own misery.", "So, I drank some of the inventory at my job — I drank a lot of it. It helped for about two seconds.", "The alarm jars me awake again. 8:08 A.M. Why did I agree to this meeting? Some student director wants to have breakfast, undoubtedly, to pitch his stupid thesis film, and ask me if I would do it for free, cause he really admires my work, yada, yada. Fuck him. Doesn't he know I suck? He should ask me to pay him to do his worthless film. That's what I deserve. For some inexplicable reason, I drag myself out of bed and into the shower. \"I wonder if anyone ever drowned in a shower,\" I think to myself.", "Deb texts me: \"How did the audition go?\" I key in several responses: \"Okay.\" \"It sucked.\" \"I quit.\" \"You're fired.\" \"I'm fired.\" None seemed right, so I don't respond.", "The director turns out to be a nice guy — delusional — but nice. He still has that idealistic gleam in his eye. Just wait until the little shit graduates. I'll give him six months before he offs himself. I tell him I'll read his script, but I'm secretly planning to brush him off with some bullshit about another engagement the week of the shoot. I certainly wasn't going to waste any brain cells reading the damn thing. From the sound of it, it's another depressing student film — a father-son story with lots of abuse and alcohol. Why do film students make depressing films? It must make them feel deep, or maybe it impresses their professors. You'll never see the next A Fish Called Wanda as a student thesis film, that's for sure.", "I throw the script on my back seat and head over to my apartment. I don't want to go home really but I have nowhere else to go. For ten seconds, I consider driving all the way to Tijuana. I have no logical reason to do it, other than it would be dramatic. Ultimately, I chicken out. I wish I had the balls of some of my characters. I really do.", "The phone rings — since I ignored her text, Deb has resorted to calling me. I send it to voicemail. I don't want to hear a pep talk from anyone.", "When I get to the apartment, I decide to take a pen and paper and write down all of my options other than acting. I make a long list. The least depressing is to apply for a job as a drama teacher at my old high school. I figure I could call my cousin Ben — he teaches History at my alma mater. Maybe he could put a word in for me. I call mom and ask for Ben's number and she tells me his daughter just got in a major car wreck and was in the intensive care unit at Saint Mary's Hospital. I consider calling anyway, then I decide that the, \"I'm so sorry about your daughter — could you call the school for me,\" pitch won't fly. Mom surprises me though. When I tell her I am quitting, she says something along the lines that only losers quit just before the finish line, and I wasn't a loser. What does she know? But it makes me feel a tiny bit better anyway. Hell, I always thought she secretly wanted me to quit and move into a house with a white picket fence and the 2.5 kids. Who knew?", "Option two on my list is a car salesman. I have mixed feelings about that one. I happen to love and know all there is to know about cars. But I hate sales — absolutely detest it. You'd never guess, right? I move on to option three: travel around the world. The problem with that one is you need money. I decide to hit the bookstore to buy one of those dumb \"Africa on a Buck-a-Day,\" books or something. The best I can find is a series of five-bucks-a-day books — inflation, I guess. I buy them all.", "I was supposed to see Beth that night — I'm embarrassed to say we've resorted to scheduling our sex lately. Sure, it's not spontaneous, but it's better than nothing. But tonight, I am definitely not in the mood. Actually, I decide I am going to break up with her. Believe me, I am doing her a favor. She deserves a successful guy. I eat a pint of Chocolate Chip Cookie Dough ice cream and rehearse my break-up lines. \"I'm sorry babe, but this is not working… I'm going to hitchhike all over the world… I've moved on.\" I decide to wing it.", "She comes over and I tell her we don't belong together because she is so positive and I am a dark cloud, etc. Her response is to ask me if I wanted to order some Chinese. I figure she didn't hear me, so I start all over again. She cuts me off and tells me she heard me the first time, and asks what I want to eat. This girl has some serious issues — who the hell ignores you when you're trying to break up with them?! A normal person would have been pissed.", "I finally give up on getting through to her and we order Chinese and put on The Godfather. I've seen it like seventy-five times, but it's my favorite film of all time. We were at the part when Sonny gets machine-gunned when Deb calls again. She usually doesn't call this late, so I figured she must be really annoyed that I've been ignoring her all day. Beth pauses the film right on the frame where Sonny's bullet-ridden body is about to collapse, and makes me pick up.", "I start to apologize to Deb and tell her how shitty the audition went, etc., when she interrupts me with: \"You got a callback.\" For a second, I think I heard her wrong. Or it must be that stupid Gillette commercial I auditioned for two weeks ago. Then she lays this on me: \"David Fincher wants to meet with you in person.\"", "I go numb. My mind immediately flashes back to the past two days, the email with the audition, the genius choices I made with the coach, the Brando'esque, under-stated, audition, the coy, \"That won't be necessary,\" from the casting director, the terror in the actor's eye that knew I got the part!", "A warm elation fills my body. I scream into the phone. Between laughs, Deb tries to put things in perspective, \"You don't have the part yet. It's between you and one other guy.\" Bullshit!\" I yell back. \"This role is mine, baby!\"", "All of the hard work was worth it! My big break is here! Oh my God, a one-on-one with David Fincher! I'm amazing! I'm brilliant! I'm the best actor in the world!", "I finally hang up and Beth doesn't even have the decency to ask me what all of the screaming was about. I'm sure she got the picture, but a courteous person would give me a chance to relive the entire phone call all over again. I give her the blow-by-blow anyway and all she does is flash me a huge smile, then press play on the remote. What is wrong with this woman? I think I'm going to ask her to marry me."]}, {"slug": "the-wall", "title": "The Wall", "kind": "Essay", "summary": "When an obstacle is too high to climb and too long to walk around, dig underneath.", "pull": "A full stop. Nowhere to go. No way around. Too high to climb.", "min": 3, "p": ["We've all seen it — it's hard to miss. The Great Wall of China has nothing on it. It's so thick, an atom bomb could barely scratch it. It's so high, that the moon has to pivot to avoid hitting it. Anyone who plays the game of life, sooner or later, comes up against… the wall.", "It's not as though you haven't scaled obstacles before. The path leading to the wall had Burmese tiger traps you managed to escape, it had all sorts of snakes and spears that you ducked and wrestled. And the quicksand trap almost got you, but you grabbed that branch and pulled yourself out. But the wall? Now, that's a formidable enemy. A full stop. Nowhere to go. No way around. Too high to climb.", "There's no solution apparent and no way to continue the journey.", "What do you do?", "Well, there's always giving up. Could walk back along the path that got you here, go around the quicksand, duck the spears, kill the snakes and leap over the Burmese tiger trap. You'll make it home, light a fire in the fireplace, and kick back until you kick off.", "That's always an option.", "Seems a bit of a shame, though. It wasn't easy getting where you got. Took a lot of courage to get here. You won a lot of battles too. And you could smell victory — it was just around the corner. But you never expected coming up against an obstacle like this.", "If only there were a way to climb it, but its height puts the redwoods surrounding it to shame. You tried to walk around it, but it kept going and going and going forever. And when you hit it with your hammer, the hammer snapped in half. You even fired a bullet at it, and it ricocheted off and nearly took your eye out. It's a wall alright, and there's nothing you can do about it.", "Then you remember a Chinese proverb by a guy named Confucius, \"The man who moves a mountain begins by carrying away small stones.\"", "Small stones huh? More like grains of stone with this wall. Man, that's a long process. Could take a few hundred lifetimes. You probably will never get there.", "You contemplate the other option of giving it all up and decide you can't do that. You're not a quitter. Never were. Never could be.", "You take out your trusty hunting knife and dig into the wall. A few tiny grains of rock trickle down, just a few. Hardly noticeable. You dig in again, and a few more grains peel off the face of the wall. In many ways, you feel this battle is futile but you still brighten up a bit. At least you're moving forward, not backwards. You keep looking at the wall, digging a grain or two away, and you realize that people have gotten past it before. You've heard all the tales. They've come down from generation to generation. The heroes, the legends. They can't all be false. There has to be a way. And you dig your knife into the stone and a few more grains fall off.", "\"Underneath, underneath,\" you hear yourself whisper. The wall rises to the stars and goes on to the left and right endlessly. But it sits on the surface of the earth. It must be possible to dig a tunnel underneath the wall. That must be the way around it.", "You turn your trusty hunting knife to the ground and thrust it into the earth. It's a bit chunky, but compared to the wall, it's as soft as butter. By sundown you've dug yourself a healthy ditch, and you're turned West toward the wall. Excited by the possibility, you ignore your exhausted muscles and dig in earnest. A few more feet and, why, you are beneath the wall! You're actually under it! There is a way out! Exhilarated, you continue to dig, inch by inch, and you're getting closer and closer. Not long after, daylight fills the tunnel as you break through. You're there. You made it to the other side. A miracle!", "Entrepreneurs are playing a big game of life and sometimes life throws a wall at you. It may look insurmountable, but it's not. Every barrier has a solution. If you look long and hard enough, you will find it.", "The thing not to do, is give up. That's easy. The epic tales of adventure are about those few who pursued and achieved the impossible. You can do it."]}, {"slug": "its-about-people", "title": "It's About People", "kind": "Essay", "summary": "Why make movies? Not for fame or palm trees, but for other people.", "pull": "If my characters cry on a movie screen, maybe someone else won't have to.", "min": 1, "p": ["Why do I make movies? Why do I act, write, eat, breathe?", "Is it about swimming pools and majestic palm trees on my front lawn?", "Is it about fame? Autographs? Being chased by Paparazzi? Starlets? Being seen at the Ivy with Charlize Theron?", "Why do I live? Why do I love?", "Is it all about me? It's a me, me, me world, after all.", "Is it all about gadgets? I just got my new Apple Watch.", "Is it about technological advances? Artificial intelligence? Robots? Space travel? New frontiers? Star Trek?", "Is it about love? Love makes the world go 'round, right? All you need is love.", "Or is it about people? A little about me, and a lot about other people? My girl, my sister, my nephew, my friends, all of the people in the world I will never meet? Helping others? Inspiring others? Making people smile, laugh, cry, even learn a little about life? If my characters cry on a movie screen, maybe someone else won't have to. If they laugh, maybe someone else will too. Maybe I can make just one person's day a tiny bit better — just a little. And maybe he will do the same for someone else. And I'll still have lunch with Charlize at the Ivy."]}, {"slug": "up-the-down-escalator", "title": "Up the Down Escalator", "kind": "Essay", "summary": "A career is a climb up a down escalator. How you meet the bad days makes the difference.", "pull": "It's how you react to the bad days that makes the difference between a winner and a loser.", "min": 2, "p": ["In many ways, living life is like walking up a down escalator. The momentum of the escalator is pulling you downwards, while you are trying to climb up to the top. If you go about it casually, you will still go backwards. With a little more effort, you will go nowhere. It takes concentrated focus and energy to overcome the downward momentum of the escalator and actually get anywhere.", "This can also be said of a career — any career, but especially that of an artist. There will be bumps along the road for sure. It's how you react to the bad days that makes the difference between a winner and a loser.", "Good days are easy. They're good. You wake up feeling energized and ready to conquer the world. So, there's not much to say here other than take advantage of those days to the max.", "It's the bad days that trip us up. Those days, the down escalator feels like someone hit the high speed button. It's hard to get out of bed. Career feels hopeless. There is no apparent purpose to anything.", "Perfect. Here's your chance to take charge, and force yourself out of bed and into action. You could go to the gym. Go on a hike. Study. Do anything you can to extrovert your attention.", "And do something productive for yourself and career.", "At first, it will feel terrible, useless, so difficult. That's okay. Make yourself keep going. Again, that downward escalator is pulling you backwards. On days like this, it's on high speed. What are you going to do? Give in or fight your way to the top.", "If you decide to fight, you will start to make progress and before you know it, you'll also start to feel better. Eventually you'll have a breakthrough. Perhaps book a role. And you'll remember why you got into acting in the first place. Your purpose will get a revival.", "So, how you react to the bad days is key. Remind yourself what you love about acting, and why it's important for yourself, your friends, family and the world that you do this. Get out of bed and go. You feel horrible — so what? Go! Get something done, no matter what.", "Keep this policy in and the bad days will become fewer and the good days more frequent.", "And you'll find a switch for that nasty down escalator; flip it, set it going in the right direction. Up!"]}, {"slug": "behold-the-critic", "title": "Behold the Critic", "kind": "Essay", "summary": "Study with masters, not critics, and stop tearing your own work apart.", "pull": "If you study anything, study with masters. Never study with critics or career educators.", "min": 2, "p": ["The world is full of critics. They are the so-called experts that can tell you all the things wrong with an artistic creation, such as a film. They can even tell you if it's the writing, acting, editing or directing that ruined the film. They are quite knowledgable and have great vocabularies.", "But there is one problem: they cannot create the very work they criticize. They cannot make a movie, write a novel or paint a painting. Some have tried, and failed miserably.", "An expert is someone who can do something very well. A critic is not an expert at anything except trivia and criticism.", "If you study anything, study with masters. Never study with critics or career educators.", "Sometimes, directors can be critics as well. They love to criticize other people's work. The same can be said for actors. They especially love to criticize Oscar winners and movie stars. But they don't stop there. They also criticize their fellow artists and friends — usually behind their back but sometimes to their face. They have a running monologue of criticism.", "But of all the people they criticize, they have one absolute favorite.", "Themselves.", "They love to chop themselves to pieces. Of all the targets of their criticisms, they levy the fiercest attacks on their own, perceived, incompetence. On the surface, they may be arrogant. Behind, underneath the bluster, is a totally lack of confidence. No matter how good they are, they will find a reason to be dissatisfied, and miserable. They forget that no one is perfect — perfection doesn't exist.", "They hold themselves to a standard that is impossible to meet. And so, they set themselves up for failure. And they fail, fail, fail.", "And finally, when they can't take it anymore, they quit.", "Some become teachers or professional critics.", "An artist should appreciate the creations of others. He should look for all the good things in people's work and ignore the not-so-good. He should do the same for his own work, while training to improve the rough areas without finding fault. He should strive for perfection, while knowing that absolute perfection doesn't exist, and that everyone is a work-in-progress.", "Treat others well. Treat yourself well. You are important. You are an artist!"]}];
+
+  var FILMS=[
+   {id:'ed',title:'Ed',c:'#e0a23a',poster:'img/poster-ed.jpg',alt:'Poster for Ed: two men talking on a bench under autumn trees, with the line We all need someone to talk to',
+    meta:'Short film · 13 min · Starring James Sloyan and Will Potter',lead:'“We all need someone to talk to.”',
+    credits:[['Presented by','Door 9 Entertainment'],['A production of','Sevier Crespo, Isa Totah'],['Starring','James Sloyan, Will Potter'],['Story, screenplay & direction','Isa Totah'],['Produced by','Sevier Crespo, Isa Totah, Conroe Brooks'],['Executive producer','Isa Totah']],
+    watch:{u:'https://vimeo.com/288915581',t:'Watch on Vimeo',s:'13 min'}},
+   {id:'quarter-to-three',title:'Quarter to Three',c:'#4a9fc0',poster:'img/poster-q23.jpg',alt:'Poster for Quarter to Three: a man in a suit seen from behind on an empty theater stage',
+    meta:'Short film · Starring Ben Vereen · Shot at the Warner Grand Theater, San Pedro',lead:'Summer 2020. After yet another devastating event in his life, Martin looks for solace in the one place he’s felt most at peace: the theater.',
+    laurel:['Woodstock Film Festival','Official Selection, 2023'],
+    credits:[['Presented by','Door 9'],['Starring','Ben Vereen'],['Written & directed by','Isa Totah'],['Director of photography','Gareth Taylor'],['Original score by','Edy Lan'],['Edited by','Isa Totah']]},
+   {id:'america',title:'America',c:'#5aa7e0',poster:'img/poster-america.jpg',alt:'Poster for America: a collage of characters, a blue convertible and neon signs under a blue neon title',
+    meta:'Feature film in development',lead:'Partially autobiographical, the film centers around an Arab immigrant family’s attempt to adapt to a new culture.',
+    credits:[['Written by','Isa Totah'],['Director (attached)','Isa Totah'],['Producer','Mark Johnson']],
+    watch:{u:'https://vimeo.com/268229689',t:'Scenes from a reading',s:'10 min'}},
+   {id:'battle',title:'Battle',c:'#ee4a8f',poster:'img/poster-battle.jpg',alt:'Poster for Battle: a figure holding up a toy monster beside a glowing neon trailer at dusk',
+    meta:'Short film · 22 min · The Battle After the War',lead:'Haunted by guilt from a wartime decision that crippled his best friend, Tony struggles between loyalty and the desire for a new life, forcing an explosive confrontation with his past.',
+    laurel:['indi.com Short Film Competition','Judge’s Pick, 2015'],
+    credits:[['Written & directed by','Isa Totah'],['Lead','Isa Totah']],
+    watch:{u:'https://vimeo.com/525701630',t:'Watch on Vimeo',s:'22 min'}},
+   {id:'gone',title:'Gone',c:'#f0325f',poster:'img/poster-gone.jpg',alt:'Poster for Gone: two silhouetted men against blurred red and magenta city lights',
+    meta:'Short film · 20 min',lead:'When Budd’s eccentric old college roommate, Matt, suddenly appears in Los Angeles exhibiting increasingly bizarre and reckless behavior, a night wandering the city reveals a tragic secret that Matt’s mind has desperately hidden from himself.',
+    laurel:['LA Shorts International Film Festival','Official Selection'],
+    credits:[['Presented by','Door 9'],['A production of','Will Potter, Isa Totah'],['Written & directed by','Isa Totah'],['Story by','Isa Totah, Will Potter, Michael Petted'],['Produced by','Will Potter']],
+    watch:{u:'https://vimeo.com/531100988',t:'Watch on Vimeo',s:'20 min'}}
+  ];
+  var SOON=[
+   ['The Stage','Inside a small theater, a legendary director rehearses a powerful play with an emotionally exhausted actress, until the rehearsal spirals into chaos.'],
+   ['Last Call','A fading acting icon plans a theatrical final scene in his vintage Mustang, until an urgent call from his distressed grandson derails everything.'],
+   ['Providence Prep','A sharp, funny coming-of-age dramedy about rebellion, redemption, and finding faith in unexpected places.'],
+   ['Midnight in LA','A French artist chasing Hollywood’s fabled allure and a jaded Spider-Man busker collide in a chaotic night-long chase for her stolen purse, forging a no-romance pact that blossoms into an unexpected bond.']
+  ];
+  var SEM=['The Joy of Creating','The Power of Aesthetics','The Power of Imagination','The Power of an Artist','Imagination & Postulates','The Art of Romance','Rehabilitation of Your Universe','The Road to Eternity'];
+  var TESTI=[['My favorite speaker, ever!','N.W.'],['The best seminar I’ve EVER attended.','V.P.'],['Every moment was magical.','J.R.'],['Absolutely inspiring!','L.L.'],['By far my favorite seminar of ALL I’ve attended!','E.G.'],['So uplifting!!! I feel this rekindling of life!!','S.B.'],['Inspiring. It helped me create my future game.','B.L.']];
+  var NEWS=[
+   {k:'Festivals & awards',d:'2023',t:'Quarter to Three at the Woodstock Film Festival',x:'Quarter to Three, starring Ben Vereen, was an Official Selection of the Woodstock Film Festival in 2023.',img:'img/qtt-profile.jpg',alt:'Ben Vereen in profile, lit from one side',href:'#director'},
+   {k:'Festivals & awards',d:'2015',t:'Battle wins the Judge’s Pick',x:'Battle won the Judge’s Pick in the indi.com Short Film Competition in 2015.',img:'img/poster-battle.jpg',alt:'Battle poster',href:'#director',pos:'50% 30%'},
+   {k:'Project announcements',d:'',t:'Placeholder: news post to come',x:'A project announcement will appear here.',ph:1},
+   {k:'Exhibitions',d:'',t:'Placeholder: news post to come',x:'Exhibition news will appear here.',ph:1},
+   {k:'Speaking',d:'',t:'Placeholder: news post to come',x:'Speaking news will appear here.',ph:1}
+  ];
+
+  /* ---------- render ---------- */
+  $('#films').innerHTML=FILMS.map(function(f){
+    var cr=f.credits.map(function(c){return '<div><dt>'+esc(c[0])+'</dt><dd>'+esc(c[1])+'</dd></div>'}).join('');
+    var laurel=f.laurel?'<p class="laurel"><span class="dot" style="--c:'+f.c+'"></span><span><b>'+esc(f.laurel[0])+'</b> &middot; '+esc(f.laurel[1])+'</span></p>':'';
+    var watch=f.watch?'<a class="watch ext" href="'+f.watch.u+'" target="_blank" rel="noopener" style="--gl:'+f.c+'">'+esc(f.watch.t)+' <span>'+esc(f.watch.s)+'</span> '+EXT+'</a>':'';
+    return '<article class="film-row" style="--now:'+f.c+';--c:'+f.c+'">'+
+      '<figure class="film-poster glow"><button class="lit" data-lb="poster" data-title="'+esc(f.title)+'" data-sub="'+esc(f.meta)+'" aria-label="View the poster for '+esc(f.title)+'"><img loading="lazy" src="'+f.poster+'" alt="'+esc(f.alt)+'"></button></figure>'+
+      '<div class="film-copy"><p class="label"><i></i>'+(f.id==='america'?'In development':'Film')+'</p><h2 class="h2">'+esc(f.title)+'</h2><p class="lead">'+esc(f.lead)+'</p><p class="meta">'+esc(f.meta)+'</p>'+laurel+'<dl class="credits">'+cr+'</dl><p class="acts">'+watch+'</p></div></article>';
+  }).join('');
+  $('#soon').innerHTML=SOON.map(function(s){return '<article><h3>'+esc(s[0])+'</h3><p>'+esc(s[1])+'</p></article>'}).join('');
+  $('#sem').innerHTML=SEM.map(function(s){return '<li>'+esc(s)+'</li>'}).join('');
+  $('#testi').innerHTML=TESTI.map(function(t){return '<figure class="quote"><span class="qm" aria-hidden="true">&ldquo;</span><blockquote style="font-size:1.5rem">'+esc(t[0])+'</blockquote><figcaption class="who">'+esc(t[1])+'</figcaption></figure>'}).join('');
+  $('#essays').innerHTML=ESSAYS.map(function(e){
+    return '<a class="entry" href="#essay-'+e.slug+'"><span class="k">Essay'+(e.min?' &middot; '+e.min+' min read':'')+'</span><div><h3>'+esc(e.title)+'</h3><p>“'+esc(e.pull||e.summary)+'”</p></div><span class="arr">'+ARW+'</span></a>';
+  }).join('');
+  function newsCard(n){
+    var thumb=n.ph?'<div class="thumb">Image to come</div>':'<div class="thumb"><img loading="lazy" src="'+n.img+'" alt="'+esc(n.alt)+'" style="'+(n.pos?'object-position:'+n.pos:'')+'"></div>';
+    var inner=thumb+'<p class="k">'+esc(n.k)+(n.d?' &middot; '+esc(n.d):'')+'</p><h3>'+esc(n.t)+'</h3><p>'+esc(n.x)+'</p>';
+    return n.href?'<a class="card" href="'+n.href+'">'+inner+'</a>':'<article class="card is-ph">'+inner+'</article>';
+  }
+  $('#home-news').innerHTML=[NEWS[0],NEWS[1],NEWS[2]].map(newsCard).join('');
+  $('#news-all').innerHTML=NEWS.map(function(n){
+    var inner='<span class="k">'+esc(n.k)+(n.d?'<br>'+esc(n.d):'')+'</span><div><h3>'+esc(n.t)+'</h3><p'+(n.ph?' class="todo"':'')+'>'+esc(n.x)+'</p></div>'+(n.href?'<span class="arr">'+ARW+'</span>':'<span></span>');
+    return n.href?'<a class="entry" href="'+n.href+'">'+inner+'</a>':'<article class="entry">'+inner+'</article>';
+  }).join('');
+
+  /* ---------- essay reader ---------- */
+  function showEssay(slug){
+    var e=null;ESSAYS.forEach(function(x){if(x.slug===slug)e=x});
+    if(!e)return false;
+    var i=ESSAYS.indexOf(e),nx=ESSAYS[(i+1)%ESSAYS.length];
+    $('#essay-body').innerHTML='<a class="watch go" href="#writing" style="margin-bottom:26px">'+'← All writing</a><p class="label"><i></i>Essay'+(e.min?' &middot; '+e.min+' min read':'')+'</p><h1 class="h2">'+esc(e.title)+'</h1>'+
+      (e.pull?'<p class="pull">“'+esc(e.pull)+'”</p>':'')+'<div class="body">'+e.p.map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+'</div>'+
+      '<p style="margin-top:56px;padding-top:28px;border-top:1px solid var(--hair)"><span class="kick">Next essay</span><br><a class="h3 go" href="#essay-'+nx.slug+'" style="display:inline-block;margin-top:8px">'+esc(nx.title)+'</a></p>';
+    return true;
+  }
+
+  /* ---------- routing ---------- */
+  var routes=['home','director','actor','speaker','works','art','photography','writing','about','news','contact'];
+  var alias={'contact-film':'film','contact-speaking':'speaking','contact-art':'art'};
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var navLinks=[].slice.call(document.querySelectorAll('[data-nav]'));
+  var hdr=$('#hdr'),menu=$('#menu'),mbtn=$('#menu-btn');
+  function setMenu(open){menu.hidden=!open;mbtn.setAttribute('aria-expanded',open?'true':'false');hdr.classList.toggle('open',open);document.body.classList.toggle('lock',open)}
+  mbtn.addEventListener('click',function(){setMenu(menu.hidden)});
+  window.addEventListener('resize',function(){if(window.innerWidth>1100)setMenu(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!menu.hidden)setMenu(false)});
+  function scrolled(){hdr.classList.toggle('solid',window.scrollY>40)}
+  window.addEventListener('scroll',scrolled,{passive:true});
+
+  function route(){
+    var h=(location.hash||'#home').slice(1),topic=null,page;
+    if(alias[h]){topic=alias[h];h='contact'}
+    if(h.indexOf('essay-')===0){page=showEssay(h.slice(6))?'essay':'writing';if(page==='writing')h='writing';else h='essay'}
+    else if(routes.indexOf(h)<0)h='home';
+    pages.forEach(function(p){p.hidden=p.getAttribute('data-page')!==h});
+    document.body.setAttribute('data-page',h==='essay'?'writing':h);
+    navLinks.forEach(function(a){
+      var g=(a.getAttribute('data-group')||a.getAttribute('data-nav')).split(' ');
+      if(g.indexOf(h)>-1)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+    });
+    if(topic){var r=document.querySelector('input[name=topic][value='+topic+']');if(r){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}))}}
+    closeLb();setMenu(false);window.scrollTo(0,0);scrolled();
+  }
+  window.addEventListener('hashchange',route);
+
+  /* ---------- lightbox ---------- */
+  var lb=$('#lb'),lbImg=$('#lb-img'),lbCap=$('#lb-cap'),items=[],idx=0,last=null;
+  function show(){var it=items[idx];lbImg.src=it.src;lbImg.alt=it.alt;lbCap.innerHTML='<b>'+esc(it.title)+'</b>'+esc(it.sub);var m=items.length>1;$('#lb-p').style.display=m?'':'none';$('#lb-n').style.display=m?'':'none'}
+  function openLb(list,i){items=list;idx=i;last=document.activeElement;show();lb.hidden=false;document.body.classList.add('lock');$('#lb-x').focus()}
+  function closeLb(){if(lb.hidden)return;lb.hidden=true;lbImg.removeAttribute('src');document.body.classList.remove('lock');if(last&&last.focus)last.focus()}
+  function step(d){idx=(idx+d+items.length)%items.length;show()}
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('[data-lb]');if(!t)return;
+    var page=t.closest('.page'),g=t.getAttribute('data-lb');
+    var els=[].slice.call(page.querySelectorAll('[data-lb="'+g+'"]'));
+    openLb(els.map(function(el){var im=el.querySelector('img');return{src:im.currentSrc||im.src,alt:im.alt,title:el.getAttribute('data-title'),sub:el.getAttribute('data-sub')}}),els.indexOf(t));
+  });
+  $('#lb-x').addEventListener('click',closeLb);
+  $('#lb-p').addEventListener('click',function(){step(-1)});
+  $('#lb-n').addEventListener('click',function(){step(1)});
+  lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
+  document.addEventListener('keydown',function(e){if(lb.hidden)return;if(e.key==='Escape')closeLb();else if(e.key==='ArrowLeft')step(-1);else if(e.key==='ArrowRight')step(1)});
+
+  /* ---------- copy email ---------- */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.copy');if(!b)return;
+    var a=$(b.getAttribute('data-copy'));if(!a)return;
+    var txt=a.textContent.trim(),old=b.textContent;
+    function done(){b.textContent='Copied';setTimeout(function(){b.textContent=old},1600)}
+    function fb(){try{var r=document.createRange();r.selectNodeContents(a);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Press Ctrl+C';setTimeout(function(){b.textContent=old},2200)}catch(x){}}
+    try{navigator.clipboard.writeText(txt).then(done,fb)}catch(x){fb()}
+  });
+
+  /* ---------- contact form + topic -> address ---------- */
+  var EM={film:'itotah@gmail.com',speaking:'allison@totahfoundation.com',media:'itotah@gmail.com',art:'itotah@gmail.com',general:'itotah@gmail.com'};
+  document.addEventListener('change',function(e){
+    if(e.target.name!=='topic')return;
+    var a=$('#m-dir'),v=EM[e.target.value]||EM.general;a.textContent=v;a.href='mailto:'+v;
+  });
+  var form=$('#cf'),status=$('#f-status');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){form.reportValidity();return}
+    status.textContent='This is a staging site, so the form is not connected yet and nothing was sent. Please email directly.';status.hidden=false;
+  });
+
+  route();
+})();
+</script>
+</body></html>
